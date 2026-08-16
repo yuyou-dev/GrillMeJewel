@@ -43,7 +43,8 @@ const findings = [];
 if (existsSync(resolve(ROOT, ".git"))) {
   try {
     const identities = execFileSync("git", ["log", "--format=%ae%x00%ce", "--all"], { cwd: ROOT, encoding: "utf8" }).split("\n").filter(Boolean);
-    for (const identity of identities) for (const email of identity.split("\0")) if (email && !email.endsWith("@users.noreply.github.com")) findings.push({ file: ".git", rule: "public commit email must use GitHub noreply" });
+    const isGitHubNoreply = (email) => email === "noreply@github.com" || email.endsWith("@users.noreply.github.com");
+    for (const identity of identities) for (const email of identity.split("\0")) if (email && !isGitHubNoreply(email)) findings.push({ file: ".git", rule: "public commit email must use GitHub noreply" });
   } catch { findings.push({ file: ".git", rule: "unable to verify public commit identities" }); }
 }
 

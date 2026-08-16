@@ -13,8 +13,11 @@ test("marketplace and plugin identities are aligned", () => {
   assert.equal(market.plugins.length, 1);
   assert.equal(market.plugins[0].name, "grill-me-jewel");
   assert.equal(manifest.name, "grill-me-jewel");
-  assert.equal(manifest.version, "0.1.0");
+  assert.equal(manifest.version, "0.1.1");
   assert.equal(manifest.license, "Apache-2.0");
+  assert.equal(manifest.interface.developerName, "苏哇科技");
+  assert.equal(manifest.interface.composerIcon, "./assets/brand/logo-static.png");
+  assert.ok(existsSync(resolve(PLUGIN, manifest.interface.composerIcon)));
 });
 
 test("the plugin contains exactly one public skill", () => {

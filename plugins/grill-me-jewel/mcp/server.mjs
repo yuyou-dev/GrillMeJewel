@@ -5,9 +5,9 @@ import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
 
 const SERVER_NAME = "grill_me_jewel_ui";
-const SERVER_VERSION = "0.1.0";
+const SERVER_VERSION = "0.1.1";
 const MCP_VERSION = "2025-11-25";
-const RESOURCE_URI = "ui://grill-me-jewel/interview/v1.html";
+const RESOURCE_URI = "ui://grill-me-jewel/interview/v2.html";
 const HTML_PATH = fileURLToPath(new URL("./interview.html", import.meta.url));
 
 function error(code, message, data) {
@@ -156,7 +156,7 @@ function resultFor(method, params) {
   }
   if (method === "tools/list") return { tools: [toolDescriptor()] };
   if (method === "resources/list") {
-    return { resources: [{ name: "grill-me-jewel-interview-v1", uri: RESOURCE_URI, mimeType: "text/html;profile=mcp-app" }] };
+    return { resources: [{ name: "grill-me-jewel-interview-v2", uri: RESOURCE_URI, mimeType: "text/html;profile=mcp-app" }] };
   }
   if (method === "resources/read") {
     if (params?.uri !== RESOURCE_URI) throw new Error(`unknown resource: ${params?.uri || ""}`);
