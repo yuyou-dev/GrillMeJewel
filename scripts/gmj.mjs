@@ -56,8 +56,14 @@ function resolveCodex() {
 }
 
 function execute(command, args, { json = false } = {}) {
-  const shell = process.platform === "win32" && /\.(?:cmd|bat)$/i.test(command);
-  const result = spawnSync(command, args, { encoding: "utf8", windowsHide: true, shell });
+  let executable = command;
+  let executableArgs = args;
+  if (process.platform === "win32" && /\.(?:cmd|bat)$/i.test(command)) {
+    const quote = (value) => `"${String(value).replaceAll('"', '""')}"`;
+    executable = process.env.ComSpec || "cmd.exe";
+    executableArgs = ["/d", "/s", "/c", `${quote(command)} ${args.map(quote).join(" ")}`];
+  }
+  const result = spawnSync(executable, executableArgs, { encoding: "utf8", windowsHide: true });
   if (result.error) throw new Error(`unable to start ${args[0] || command}: ${result.error.message}`);
   if (result.status !== 0) throw new Error((result.stderr || result.stdout || "command failed").trim().split("\n")[0]);
   if (!json) return result.stdout.trim();
