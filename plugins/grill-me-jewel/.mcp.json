@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "grill_me_jewel_ui": {
+      "command": "node",
+      "args": ["./mcp/server.mjs", "--stdio"]
+    }
+  }
+}

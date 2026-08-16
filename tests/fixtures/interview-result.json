@@ -1,0 +1,60 @@
+{
+  "jsonrpc": "2.0",
+  "method": "ui/notifications/tool-result",
+  "params": {
+    "structuredContent": {
+      "interview": {
+        "schemaVersion": 1,
+        "title": "找到你的珠宝方向",
+        "intro": "每次只回答当前这一题，四项都会完整呈现。",
+        "round": 1,
+        "submitLabel": "提交本轮回答",
+        "questions": [
+          {
+            "id": "category",
+            "label": "先确定珠宝品类",
+            "help": "选择最接近的品类，后续设计会以它为唯一产品身份。",
+            "type": "single",
+            "required": true,
+            "options": [
+              { "value": "ring", "label": "戒指", "description": "适合主石、符号或日常佩戴设计" },
+              { "value": "necklace", "label": "项链", "description": "适合吊坠、链节或胸前构图" },
+              { "value": "bracelet", "label": "手链 / 手镯", "description": "适合腕部连续结构与节奏设计" },
+              { "value": "other", "label": "其他", "description": "输入你想设计的品类" }
+            ]
+          },
+          {
+            "id": "story",
+            "label": "它想表达什么？",
+            "help": "一句话也可以。",
+            "type": "text",
+            "required": true,
+            "placeholder": "例如：送给自己的新阶段礼物"
+          },
+          {
+            "id": "style",
+            "label": "喜欢怎样的气质？",
+            "type": "multi",
+            "required": true,
+            "options": [
+              { "value": "minimal", "label": "现代极简" },
+              { "value": "romantic", "label": "浪漫优雅" },
+              { "value": "oriental", "label": "东方雅致" },
+              { "value": "other", "label": "其他" }
+            ]
+          },
+          {
+            "id": "output",
+            "label": "这次希望得到什么？",
+            "type": "single",
+            "required": true,
+            "options": [
+              { "value": "single", "label": "1 张完整设计图" },
+              { "value": "four", "label": "4 个独立方向" }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

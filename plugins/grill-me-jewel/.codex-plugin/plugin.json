@@ -1,0 +1,30 @@
+{
+  "name": "grill-me-jewel",
+  "version": "0.1.0",
+  "description": "A guided jewelry interview that turns vague ideas into confirmed gpt-image-2 jewelry designs.",
+  "author": {
+    "name": "苏哇科技",
+    "url": "https://github.com/yuyou-dev"
+  },
+  "homepage": "https://github.com/yuyou-dev/GrillMeJewel",
+  "repository": "https://github.com/yuyou-dev/GrillMeJewel",
+  "license": "Apache-2.0",
+  "keywords": ["codex", "jewelry-design", "guided-interview", "apps-ui"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Grill Me 珠宝",
+    "shortDescription": "通过结构化访谈明确方向，并用 gpt-image-2 生成珠宝设计图。",
+    "longDescription": "Grill Me Jewel asks a few focused questions at a time in a compact Apps UI, preserves prior answers, confirms one coherent jewelry brief, and then uses Codex gpt-image-2 to generate the requested independent design images.",
+    "developerName": "苏哇科技",
+    "category": "Productivity",
+    "websiteURL": "https://github.com/yuyou-dev/GrillMeJewel",
+    "capabilities": ["Interactive", "MCP Apps UI", "Write"],
+    "brandColor": "#C8A35A",
+    "defaultPrompt": [
+      "我只有一个模糊的珠宝想法，请先用表单梳理，再生成设计图。",
+      "进入 Grill Me 珠宝模式，确认 brief 后用 Image-2 出图。",
+      "Interview me about a jewelry idea, confirm the brief, then generate the design image."
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}

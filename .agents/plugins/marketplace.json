@@ -1,0 +1,20 @@
+{
+  "name": "grill-me-jewel",
+  "interface": {
+    "displayName": "Grill Me Jewel"
+  },
+  "plugins": [
+    {
+      "name": "grill-me-jewel",
+      "source": {
+        "source": "local",
+        "path": "./plugins/grill-me-jewel"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

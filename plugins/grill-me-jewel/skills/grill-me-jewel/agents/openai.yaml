@@ -1,0 +1,11 @@
+interface:
+  display_name: "Grill Me 珠宝"
+  short_description: "通过可视化访谈明确珠宝方向，再用 Image-2 生成设计图"
+  default_prompt: "Use $grill-me-jewel to interview me, confirm the jewelry brief, and generate the design with gpt-image-2."
+policy:
+  allow_implicit_invocation: true
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "grill_me_jewel_ui"
+      description: "Compact multi-step form for Grill Me Jewel interview rounds"
