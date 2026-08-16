@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/*.test.mjs",
+    "test": "node --test tests/lifecycle.test.mjs tests/mcp.test.mjs tests/package.test.mjs tests/public-release.test.mjs",
     "scan:public": "node scripts/public-scan.mjs",
     "doctor": "node scripts/gmj.mjs doctor --json --offline"
   },
