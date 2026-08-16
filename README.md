@@ -12,35 +12,34 @@
   <img alt="gpt-image-2" src="https://img.shields.io/badge/output-gpt--image--2-111111">
 </p>
 
-<p align="center"><strong>把一句模糊的珠宝想法，追问成可以真正出图的设计方案。</strong></p>
+<p align="center"><strong>把一句模糊的珠宝想法，变成一张真实的珠宝设计图。</strong></p>
 
-GrillMeJewel 是苏哇科技推出的轻量开源 Codex 插件。它面向还不熟悉专业 brief
-的新手设计师：先在对话中用简洁的 Apps UI 逐步提问，保留每轮已确认事实，形成一份
-设计师可读的珠宝需求方案；确认之后，再由 Codex gpt-image-2 生成真实珠宝设计图。
+GrillMeJewel 是苏哇科技推出的开源 Codex 插件，为珠宝创意而生。它通过简洁优雅的
+Apps UI 一步步追问你的想法，把零散的灵感沉淀为一份清晰、专业的珠宝设计 brief；
+经你确认后，再由 Codex gpt-image-2 生成真正的珠宝设计图。无需任何专业背景，
+一句话就能开始。
 
-![Grill Me 珠宝 Apps UI 真实组件](docs/images/apps-ui-interview.png)
+![Grill Me 珠宝 Apps UI 访谈界面](docs/images/apps-ui-interview.png)
 
-<p align="center"><sub>真实 Apps UI 回放：四项问题完整保留，界面一次只呈现一题，避免对话中出现嵌套纵向滚动。</sub></p>
+<p align="center"><sub>Apps UI 访谈界面：一次只呈现一个问题，已确认的内容自动保留。</sub></p>
 
-> 首个公开版本面向 **macOS 和原生 Windows 上的 Codex Desktop**。网页版、Codex
-> Cloud 与远程沙箱不能安装本地 stdio MCP 插件。
+> 当前版本面向 **macOS 和原生 Windows 上的 Codex Desktop**。网页版、Codex Cloud
+> 与远程沙箱暂不支持本地 stdio MCP 插件。
 
 ## 一句话安装
 
-在本地 Codex Desktop 中新建任务，发送：
+在 Codex Desktop 中新建任务，粘贴以下任一指令：
 
 ```text
 /goal Read https://raw.githubusercontent.com/yuyou-dev/GrillMeJewel/main/INSTALL.md to install and verify GrillMeJewel, then create and open a new Grill Me Jewel task for me.
 ```
 
-中文提示词：
-
 ```text
 /goal 阅读 https://raw.githubusercontent.com/yuyou-dev/GrillMeJewel/main/INSTALL.md，安装并验证 GrillMeJewel，然后为我创建并打开一个新的 Grill Me 珠宝任务。
 ```
 
-Codex 会检查本机环境与权限，安装 `grill-me-jewel` marketplace 和插件，运行 doctor，
-然后提示你完全重启 Codex。完整步骤见 [INSTALL.md](INSTALL.md)。
+Codex 会自动完成环境检查、插件安装与健康检查，随后提示你重启 Codex 即可使用。
+完整步骤见 [INSTALL.md](INSTALL.md)。
 
 ## 它如何工作
 
@@ -52,24 +51,23 @@ flowchart LR
   D --> E["真实珠宝设计图"]
 ```
 
-每轮只追问当前真正缺失的决策，不重复用户已经说过的内容：
+每一轮只追问当前真正缺失的决策，绝不重复你已经说过的内容：
 
 | 设计决策 | 示例 |
 | --- | --- |
-| 起点 | 一个故事、一颗宝石、一张草图或纯粹想法 |
-| 产品身份 | 戒指、项链、手链、耳饰、胸针、套系或自定义品类 |
+| 起点 | 一个故事、一颗宝石、一张草图，或一个纯粹的念头 |
+| 产品身份 | 戒指、项链、手链、耳饰、胸针、套系，或自定义品类 |
 | 设计语言 | 黄金主导、镶嵌珠宝、混合材质与其他体系 |
-| 意义与风格 | 情感、场合、母题、轮廓、视觉重量和气质 |
+| 意义与风格 | 情感、场合、母题、轮廓、视觉重量与气质 |
 | 材质与工艺 | 只确认真正影响设计的事实，不虚构宝石等级或品牌信息 |
 | 交付意图 | 一张完整设计图，或多张相互独立的设计方向 |
 
-## 最终得到什么
+## 你将获得
 
-- 一份结构清晰、可继续修改的珠宝设计 brief。
-- 明确区分“已经锁定的事实”和“可调整的细节”。
-- 用户最终确认后生成的真实 gpt-image-2 珠宝设计图。
-- 多款需求逐张生成独立图片，不用拼图代替交付。
-- 出图权限不可用时保留已确认 brief，并如实说明阻塞，不把文字方案冒充视觉成果。
+- 一份结构清晰、可反复打磨的珠宝设计 brief，明确区分「已锁定的事实」与「可调整的细节」。
+- 经你确认后，由 gpt-image-2 生成的真实珠宝设计图。
+- 多款设计逐张独立成图，张张完整，不以拼图充数。
+- 诚实可靠的交付：即使出图权限暂不可用，已确认的 brief 也会完整保留，并如实说明原因。
 
 ## 快速试用
 
@@ -83,27 +81,27 @@ flowchart LR
 Grill me 珠宝。我有一颗蓝宝石，请通过表单帮我找到合适的品类和设计方向，确认后出一张设计图。
 ```
 
-## 版本与平台
+## 平台支持
 
 | 能力 | macOS | Windows | Linux | Web/Cloud |
 | --- | :---: | :---: | :---: | :---: |
-| 安装与 doctor | 支持 | 支持 | 未验收 | 不支持 |
-| Apps UI 与本地 MCP | 支持 | 支持 | 未验收 | 不支持 |
-| gpt-image-2 生成 | 支持 | 支持 | 未验收 | 不支持 |
+| 安装与健康检查 | ✅ | ✅ | 未验证 | — |
+| Apps UI 与本地 MCP | ✅ | ✅ | 未验证 | — |
+| gpt-image-2 生成 | ✅ | ✅ | 未验证 | — |
 
 当前稳定版：[v0.1.1](https://github.com/yuyou-dev/GrillMeJewel/releases/tag/v0.1.1)。
-升级、卸载和恢复步骤见 [INSTALL.md](INSTALL.md#update) 与
+升级与卸载见 [INSTALL.md](INSTALL.md#update)，遇到问题请查阅
 [Troubleshooting](docs/TROUBLESHOOTING.md)。
 
-## 隐私与边界
+## 隐私优先
 
-GrillMeJewel 没有托管服务、数据库或独立账号系统。Apps UI 只负责展示问题并把稳定答案
-写回当前对话；图片生成使用用户自己的 Codex 登录和 gpt-image-2 权限。仓库不包含
-API Key、Codex 登录文件、设计师作品、本机绝对路径或测试对话。
+GrillMeJewel 没有托管服务、数据库或账号系统——你的对话和创意只留在你自己的
+设备上。Apps UI 仅用于展示问题并回传答案；图片生成完全使用你自己的 Codex 登录
+与 gpt-image-2 权限，仓库中不含任何 API Key、登录凭证或用户作品。
 
-它不提供 CAD、生产参数、宝石鉴定或未经用户确认的品牌与证书事实。
+我们同样专注于设计本身：不提供 CAD、生产参数或宝石鉴定，也不会虚构品牌与证书信息。
 
-## 项目指南
+## 文档
 
 - [安装、更新与卸载](INSTALL.md)
 - [架构与安全边界](docs/ARCHITECTURE.md)
@@ -114,6 +112,6 @@ API Key、Codex 登录文件、设计师作品、本机绝对路径或测试对�
 
 ## License 与品牌
 
-代码使用 [Apache License 2.0](LICENSE)。GrillMeJewel 由 **苏哇科技** 开发并维护。
-“苏哇科技”、项目名称、图标及品牌识别不由 Apache-2.0 自动授权，详见
+代码基于 [Apache License 2.0](LICENSE) 开源。GrillMeJewel 由 **苏哇科技** 开发并维护。
+「苏哇科技」、项目名称、图标及品牌识别不随 Apache-2.0 自动授权，详见
 [TRADEMARKS.md](TRADEMARKS.md)。
