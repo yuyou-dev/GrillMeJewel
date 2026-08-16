@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 const MARKETPLACE = "grill-me-jewel";
 const SOURCE = "yuyou-dev/GrillMeJewel";
-const REF = "v0.1.0";
+const REF = "v0.1.1";
 const PLUGIN = "grill-me-jewel";
 const PLUGIN_ID = `${PLUGIN}@${MARKETPLACE}`;
 const MCP = "grill_me_jewel_ui";
@@ -85,6 +85,8 @@ function localChecks() {
     join(pluginRoot, ".mcp.json"),
     join(pluginRoot, "mcp", "server.mjs"),
     join(pluginRoot, "mcp", "interview.html"),
+    join(pluginRoot, "assets", "brand", "logo-static.png"),
+    join(pluginRoot, "assets", "brand", "logo-header.webp"),
     join(pluginRoot, "skills", "grill-me-jewel", "SKILL.md"),
   ];
   const skillsRoot = join(pluginRoot, "skills");

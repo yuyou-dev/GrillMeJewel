@@ -20,7 +20,7 @@ test("MCP exposes one interview tool and one Apps UI resource", () => {
     { jsonrpc: "2.0", id: 1, method: "initialize", params: { protocolVersion: "2025-11-25", capabilities: {}, clientInfo: { name: "test", version: "1" } } },
     { jsonrpc: "2.0", id: 2, method: "tools/list" },
     { jsonrpc: "2.0", id: 3, method: "resources/list" },
-    { jsonrpc: "2.0", id: 4, method: "resources/read", params: { uri: "ui://grill-me-jewel/interview/v1.html" } },
+    { jsonrpc: "2.0", id: 4, method: "resources/read", params: { uri: "ui://grill-me-jewel/interview/v2.html" } },
   ]);
   assert.equal(responses[0].result.serverInfo.name, "grill_me_jewel_ui");
   assert.deepEqual(responses[1].result.tools.map(({ name }) => name), ["ask_grill_me_questions"]);

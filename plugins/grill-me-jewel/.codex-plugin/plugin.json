@@ -1,6 +1,6 @@
 {
   "name": "grill-me-jewel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A guided jewelry interview that turns vague ideas into confirmed gpt-image-2 jewelry designs.",
   "author": {
     "name": "苏哇科技",
@@ -20,6 +20,8 @@
     "websiteURL": "https://github.com/yuyou-dev/GrillMeJewel",
     "capabilities": ["Interactive", "MCP Apps UI", "Write"],
     "brandColor": "#C8A35A",
+    "composerIcon": "./assets/brand/logo-static.png",
+    "logo": "./assets/brand/logo-static.png",
     "defaultPrompt": [
       "我只有一个模糊的珠宝想法，请先用表单梳理，再生成设计图。",
       "进入 Grill Me 珠宝模式，确认 brief 后用 Image-2 出图。",

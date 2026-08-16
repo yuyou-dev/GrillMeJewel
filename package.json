@@ -1,6 +1,6 @@
 {
   "name": "grill-me-jewel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,5 +8,7 @@
     "scan:public": "node scripts/public-scan.mjs",
     "doctor": "node scripts/gmj.mjs doctor --json --offline"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  }
 }

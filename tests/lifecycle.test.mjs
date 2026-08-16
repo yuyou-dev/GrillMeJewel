@@ -20,7 +20,7 @@ if(args.startsWith("login status"))process.stdout.write("Logged in");
 else if(args.startsWith("plugin marketplace list"))process.stdout.write(JSON.stringify({marketplaces:state.marketplace?[{name:"grill-me-jewel",marketplaceSource:{sourceType:"git",source:"https://github.com/yuyou-dev/GrillMeJewel.git"}}]:[]}));
 else if(args.startsWith("plugin marketplace add")){state.marketplace=true;save();process.stdout.write("{}");}
 else if(args.startsWith("plugin marketplace upgrade"))process.stdout.write("{}");
-else if(args.startsWith("plugin list")){const installed=state.installed?[{pluginId:"grill-me-jewel@grill-me-jewel",name:"grill-me-jewel",marketplaceName:"grill-me-jewel",version:"0.1.0",installed:true,enabled:true}]:[];process.stdout.write(JSON.stringify({installed,available:[]}));}
+else if(args.startsWith("plugin list")){const installed=state.installed?[{pluginId:"grill-me-jewel@grill-me-jewel",name:"grill-me-jewel",marketplaceName:"grill-me-jewel",version:"0.1.1",installed:true,enabled:true}]:[];process.stdout.write(JSON.stringify({installed,available:[]}));}
 else if(args.startsWith("plugin add")){state.installed=true;save();process.stdout.write("{}");}
 else if(args.startsWith("plugin remove")){state.installed=false;save();process.stdout.write("{}");}
 else if(args.startsWith("mcp get"))process.stdout.write(JSON.stringify({name:"grill_me_jewel_ui",enabled:true}));
