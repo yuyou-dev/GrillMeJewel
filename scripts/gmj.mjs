@@ -61,7 +61,7 @@ function execute(command, args, { json = false } = {}) {
   if (process.platform === "win32" && /\.(?:cmd|bat)$/i.test(command)) {
     const quote = (value) => `"${String(value).replaceAll('"', '""')}"`;
     executable = process.env.ComSpec || "cmd.exe";
-    executableArgs = ["/d", "/s", "/c", `${quote(command)} ${args.map(quote).join(" ")}`];
+    executableArgs = ["/d", "/s", "/c", `"${quote(command)} ${args.map(quote).join(" ")}"`];
   }
   const result = spawnSync(executable, executableArgs, { encoding: "utf8", windowsHide: true });
   if (result.error) throw new Error(`unable to start ${args[0] || command}: ${result.error.message}`);

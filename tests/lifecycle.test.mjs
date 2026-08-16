@@ -52,9 +52,9 @@ test("bootstrap is idempotent and uninstall preserves user files", () => {
   const directory = mkdtempSync(join(tmpdir(), "gmj lifecycle 中文 "));
   try {
     const codex = fakeCodex(directory); const env = { ...process.env, GMJ_CODEX_BIN: codex };
-    const first = run(["bootstrap", "--json"], env); assert.equal(first.status, 0, first.stderr); assert.equal(JSON.parse(first.stdout).actions.length, 2);
-    const second = run(["bootstrap", "--json"], env); assert.equal(second.status, 0, second.stderr); assert.equal(JSON.parse(second.stdout).actions.length, 0);
+    const first = run(["bootstrap", "--json"], env); assert.equal(first.status, 0, `${first.stderr}\n${first.stdout}`); assert.equal(JSON.parse(first.stdout).actions.length, 2);
+    const second = run(["bootstrap", "--json"], env); assert.equal(second.status, 0, `${second.stderr}\n${second.stdout}`); assert.equal(JSON.parse(second.stdout).actions.length, 0);
     const marker = join(directory, "my-design.txt"); writeFileSync(marker, "keep");
-    const removed = run(["uninstall", "--json"], env); assert.equal(removed.status, 0, removed.stderr); assert.equal(readFileSync(marker, "utf8"), "keep");
+    const removed = run(["uninstall", "--json"], env); assert.equal(removed.status, 0, `${removed.stderr}\n${removed.stdout}`); assert.equal(readFileSync(marker, "utf8"), "keep");
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
