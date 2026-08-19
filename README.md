@@ -12,11 +12,12 @@
   <img alt="gpt-image-2" src="https://img.shields.io/badge/output-gpt--image--2-111111">
 </p>
 
-<p align="center"><strong>把一句模糊的珠宝想法，变成一张真实的珠宝设计图。</strong></p>
+<p align="center"><strong>把一句模糊的珠宝想法，变成一组有清晰差异的真实设计图。</strong></p>
 
 GrillMeJewel 是苏哇科技推出的开源 Codex 插件，为珠宝创意而生。它通过简洁优雅的
-Apps UI 一步步追问你的想法，把零散的灵感沉淀为一份清晰、专业的珠宝设计 brief；
-经你确认后，再由 Codex gpt-image-2 生成真正的珠宝设计图。无需任何专业背景，
+Apps UI 通过四个有目的的探索阶段追问你的想法，把零散的灵感沉淀为一份清晰、专业的
+珠宝设计 brief；你可以选择 1、2、4、8 张或自定义数量，确认后再由 Codex gpt-image-2
+生成结构与造型都能看出差异的真实珠宝设计图。无需任何专业背景，
 一句话就能开始。
 
 ![Grill Me 珠宝 Apps UI 访谈界面](docs/images/apps-ui-interview.png)
@@ -41,14 +42,30 @@ Apps UI 一步步追问你的想法，把零散的灵感沉淀为一份清晰、
 Codex 会自动完成环境检查、插件安装与健康检查，随后提示你重启 Codex 即可使用。
 完整步骤见 [INSTALL.md](INSTALL.md)。
 
+## 一句话更新
+
+已经安装过 GrillMeJewel？在 Codex Desktop 的新任务中粘贴：
+
+```text
+/goal Read https://raw.githubusercontent.com/yuyou-dev/GrillMeJewel/main/UPDATE.md to safely update and verify my existing GrillMeJewel installation, preserve my work, and tell me when to restart Codex.
+```
+
+```text
+/goal 请阅读 https://raw.githubusercontent.com/yuyou-dev/GrillMeJewel/main/UPDATE.md，安全更新并验证我现有的 GrillMeJewel，保留我的创作内容，并告诉我何时需要重启 Codex。
+```
+
+更新器会从精确的 `v0.2.0` tag 运行可回滚迁移，不会删除对话、brief 或设计图。首次安装使用 `INSTALL.md`，已有安装使用 [UPDATE.md](UPDATE.md)。
+
 ## 它如何工作
 
 ```mermaid
 flowchart LR
-  A["模糊想法"] --> B["Apps UI 分轮追问"]
-  B --> C["确认设计 brief"]
-  C --> D["gpt-image-2 生成"]
-  D --> E["真实珠宝设计图"]
+  A["模糊想法"] --> B["基础与数量"]
+  B --> C["情感与母题"]
+  C --> D["设计语言"]
+  D --> E["差异与交付"]
+  E --> F["确认 brief"]
+  F --> G["gpt-image-2 独立出图"]
 ```
 
 每一轮只追问当前真正缺失的决策，绝不重复你已经说过的内容：
@@ -60,13 +77,13 @@ flowchart LR
 | 设计语言 | 黄金主导、镶嵌珠宝、混合材质与其他体系 |
 | 意义与风格 | 情感、场合、母题、轮廓、视觉重量与气质 |
 | 材质与工艺 | 只确认真正影响设计的事实，不虚构宝石等级或品牌信息 |
-| 交付意图 | 一张完整设计图，或多张相互独立的设计方向 |
+| 交付意图 | 1、2、4、8 张或自定义数量，以及哪些设计轴允许拉开差异 |
 
 ## 你将获得
 
 - 一份结构清晰、可反复打磨的珠宝设计 brief，明确区分「已锁定的事实」与「可调整的细节」。
 - 经你确认后，由 gpt-image-2 生成的真实珠宝设计图。
-- 多款设计逐张独立成图，张张完整，不以拼图充数。
+- 多款设计逐张独立成图，每个方向至少在三个可见设计轴上拉开差异，不以拼图充数。
 - 诚实可靠的交付：即使出图权限暂不可用，已确认的 brief 也会完整保留，并如实说明原因。
 
 ## 快速试用
@@ -78,7 +95,7 @@ flowchart LR
 ```
 
 ```text
-Grill me 珠宝。我有一颗蓝宝石，请通过表单帮我找到合适的品类和设计方向，确认后出一张设计图。
+Grill me 珠宝。我有一颗蓝宝石，请通过表单帮我找到合适的品类和设计方向，确认后出四张差异明显的设计图。
 ```
 
 ## 平台支持
@@ -89,8 +106,8 @@ Grill me 珠宝。我有一颗蓝宝石，请通过表单帮我找到合适的�
 | Apps UI 与本地 MCP | ✅ | ✅ | 未验证 | — |
 | gpt-image-2 生成 | ✅ | ✅ | 未验证 | — |
 
-当前稳定版：[v0.1.1](https://github.com/yuyou-dev/GrillMeJewel/releases/tag/v0.1.1)。
-升级与卸载见 [INSTALL.md](INSTALL.md#update)，遇到问题请查阅
+当前稳定版：[v0.2.0](https://github.com/yuyou-dev/GrillMeJewel/releases/tag/v0.2.0)。
+升级见 [UPDATE.md](UPDATE.md)，卸载见 [INSTALL.md](INSTALL.md#uninstall)，遇到问题请查阅
 [Troubleshooting](docs/TROUBLESHOOTING.md)。
 
 ## 隐私优先
@@ -103,7 +120,8 @@ GrillMeJewel 没有托管服务、数据库或账号系统——你的对话和�
 
 ## 文档
 
-- [安装、更新与卸载](INSTALL.md)
+- [首次安装与卸载](INSTALL.md)
+- [安全更新](UPDATE.md)
 - [架构与安全边界](docs/ARCHITECTURE.md)
 - [故障排查](docs/TROUBLESHOOTING.md)
 - [安全政策](SECURITY.md)

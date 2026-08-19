@@ -5,10 +5,19 @@ import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
 
 const SERVER_NAME = "grill_me_jewel_ui";
-const SERVER_VERSION = "0.1.1";
+const SERVER_VERSION = "0.2.0";
 const MCP_VERSION = "2025-11-25";
-const RESOURCE_URI = "ui://grill-me-jewel/interview/v2.html";
+const RESOURCE_URI = "ui://grill-me-jewel/interview/v3.html";
 const HTML_PATH = fileURLToPath(new URL("./interview.html", import.meta.url));
+const DISCOVERY_STAGES = ["foundation", "meaning", "design_language", "variation_delivery"];
+const STAGE_LABELS = {
+  foundation: "设计基础",
+  meaning: "情感与母题",
+  design_language: "设计语言",
+  variation_delivery: "差异与交付",
+  deepening: "深入收敛",
+  confirmation: "Brief 确认",
+};
 
 function error(code, message, data) {
   return { code, message, ...(data === undefined ? {} : { data }) };
@@ -75,11 +84,22 @@ function normalizeInterview(args) {
   if (new Set(questions.map(({ id }) => id)).size !== questions.length) throw new Error("question ids must be unique");
   const round = args.round === undefined ? 1 : Number(args.round);
   if (!Number.isInteger(round) || round < 1 || round > 12) throw new Error("round must be an integer from 1 to 12");
+  const stage = text(args.stage, "stage", 30);
+  if (!Object.hasOwn(STAGE_LABELS, stage)) throw new Error("stage is unsupported");
+  if (round <= 4 && stage !== DISCOVERY_STAGES[round - 1]) {
+    throw new Error(`round ${round} must use stage ${DISCOVERY_STAGES[round - 1]}`);
+  }
+  if (round > 4 && !new Set(["deepening", "confirmation"]).has(stage)) {
+    throw new Error("rounds after four must use deepening or confirmation");
+  }
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     title: text(args.title || "Grill Me 珠宝", "title", 80),
     intro: optionalText(args.intro, "intro", 240),
     round,
+    stage,
+    stageLabel: STAGE_LABELS[stage],
+    minimumDiscoveryRounds: 4,
     submitLabel: optionalText(args.submitLabel, "submitLabel", 30) || "提交本轮回答",
     questions,
   };
@@ -88,15 +108,16 @@ function normalizeInterview(args) {
 function toolDescriptor() {
   return {
     name: "ask_grill_me_questions",
-    description: "Present one Grill Me Jewel interview round. Ask 1-4 unresolved questions; the UI shows one question at a time and returns stable answer ids to the conversation.",
+    description: "Present one Grill Me Jewel interview round. Complete foundation, meaning, design_language, and variation_delivery as four sequential discovery rounds before a separate confirmation round. Ask 1-4 unresolved questions per round, collect delivery_count once when absent, and define wide candidate variation for multi-image delivery. The UI shows one question at a time and returns stable answer ids.",
     inputSchema: {
       type: "object",
       additionalProperties: false,
-      required: ["title", "questions"],
+      required: ["title", "round", "stage", "questions"],
       properties: {
         title: { type: "string", minLength: 1, maxLength: 80 },
         intro: { type: "string", maxLength: 240 },
         round: { type: "integer", minimum: 1, maximum: 12 },
+        stage: { type: "string", enum: [...DISCOVERY_STAGES, "deepening", "confirmation"] },
         submitLabel: { type: "string", maxLength: 30 },
         questions: {
           type: "array", minItems: 1, maxItems: 4,
@@ -156,7 +177,7 @@ function resultFor(method, params) {
   }
   if (method === "tools/list") return { tools: [toolDescriptor()] };
   if (method === "resources/list") {
-    return { resources: [{ name: "grill-me-jewel-interview-v2", uri: RESOURCE_URI, mimeType: "text/html;profile=mcp-app" }] };
+    return { resources: [{ name: "grill-me-jewel-interview-v3", uri: RESOURCE_URI, mimeType: "text/html;profile=mcp-app" }] };
   }
   if (method === "resources/read") {
     if (params?.uri !== RESOURCE_URI) throw new Error(`unknown resource: ${params?.uri || ""}`);

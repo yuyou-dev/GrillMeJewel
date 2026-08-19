@@ -13,7 +13,7 @@ test("marketplace and plugin identities are aligned", () => {
   assert.equal(market.plugins.length, 1);
   assert.equal(market.plugins[0].name, "grill-me-jewel");
   assert.equal(manifest.name, "grill-me-jewel");
-  assert.equal(manifest.version, "0.1.1");
+  assert.equal(manifest.version, "0.2.0");
   assert.equal(manifest.license, "Apache-2.0");
   assert.equal(manifest.interface.developerName, "苏哇科技");
   assert.equal(manifest.interface.composerIcon, "./assets/brand/logo-static.png");
@@ -28,6 +28,9 @@ test("the plugin contains exactly one public skill", () => {
   assert.match(skill, /ask_grill_me_questions/);
   assert.match(skill, /gpt-image-2/);
   assert.match(skill, /\$imagegen/);
+  assert.match(skill, /four discovery stages/);
+  assert.match(skill, /delivery_count/);
+  assert.match(skill, /at least three visible design axes/);
 });
 
 test("the standalone package has no unrelated repository dependency", () => {
@@ -39,4 +42,13 @@ test("the standalone package has no unrelated repository dependency", () => {
   const joined = files.map((file) => readFileSync(file, "utf8")).join("\n");
   const unrelatedRepositoryNames = new RegExp(["Jewelry", "Design", "Codex|SVT", "-Jewelry"].join(""));
   assert.doesNotMatch(joined, unrelatedRepositoryNames);
+});
+
+test("README exposes permanent install and update prompts", () => {
+  const readme = readFileSync(resolve(ROOT, "README.md"), "utf8");
+  assert.match(readme, /\/INSTALL\.md to install and verify GrillMeJewel/);
+  assert.match(readme, /\/UPDATE\.md to safely update and verify my existing GrillMeJewel installation/);
+  const update = readFileSync(resolve(ROOT, "UPDATE.md"), "utf8");
+  assert.match(update, /--branch v0\.2\.0/);
+  assert.match(update, /rolledBack/);
 });

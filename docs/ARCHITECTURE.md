@@ -9,6 +9,11 @@
 - Apps UI: `plugins/grill-me-jewel/mcp/interview.html`
 - Lifecycle doctor: `scripts/gmj.mjs`
 
+The public marketplace is pinned to a release tag. `UPDATE.md` runs the next tag's bundled updater,
+which records the current version, replaces the fixed ref, reinstalls the single plugin, verifies
+the target, and restores the previous tag if migration fails. It does not touch conversations,
+briefs, generated images, or other user files.
+
 ## Data Flow
 
 ```text
@@ -30,7 +35,7 @@ state; no server database or cache is used.
 - Outer stdio MCP: `2025-11-25`, newline-delimited JSON, logs never written to stdout.
 - Apps UI iframe: `2026-01-26`, JSON-RPC over `window.postMessage`.
 - Resource MIME: `text/html;profile=mcp-app`.
-- Resource URI: `ui://grill-me-jewel/interview/v2.html`.
+- Resource URI: `ui://grill-me-jewel/interview/v3.html`.
 
 Breaking UI changes use a new resource URI. The form returns readable summaries plus stable JSON;
 it does not return HTML pretending to be an interactive host component.

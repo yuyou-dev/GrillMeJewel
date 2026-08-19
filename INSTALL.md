@@ -5,7 +5,7 @@ This is an executable Runbook for Codex. Read it completely before changing the 
 ## Objective
 
 Install the official `grill-me-jewel@grill-me-jewel` plugin from
-`yuyou-dev/GrillMeJewel` at release `v0.1.1`, verify its Skill and local Apps UI MCP, then ask the
+`yuyou-dev/GrillMeJewel` at release `v0.2.0`, verify its Skill and local Apps UI MCP, then ask the
 user to restart Codex and start a new Grill Me Jewel task.
 
 ## Safety Rules
@@ -107,7 +107,7 @@ current version, do not reinstall it unnecessarily.
 When the official marketplace is absent:
 
 ```text
-"<CODEX_BIN>" plugin marketplace add yuyou-dev/GrillMeJewel --ref v0.1.1 --json
+"<CODEX_BIN>" plugin marketplace add yuyou-dev/GrillMeJewel --ref v0.2.0 --json
 ```
 
 Install the core plugin:
@@ -125,7 +125,7 @@ Repeat the marketplace and plugin list commands. Confirm the plugin reports:
 ```text
 installed: true
 enabled: true
-version: 0.1.1
+version: 0.2.0
 ```
 
 Use the marketplace list JSON to find the official marketplace root. From that root run:
@@ -158,13 +158,9 @@ Do not claim a new task was created if the host cannot create one automatically.
 
 ## Update
 
-From the configured marketplace root:
-
-```text
-node scripts/gmj.mjs update --json
-```
-
-This upgrades the official marketplace and refreshes the plugin. Restart Codex and use a new task afterward.
+Existing installations must follow the permanent [UPDATE.md](UPDATE.md) Runbook. It clones the exact
+target release, performs a reversible fixed-ref migration, verifies the plugin version, preserves
+user work, and requires a full Codex restart plus a new task.
 
 ## Uninstall
 

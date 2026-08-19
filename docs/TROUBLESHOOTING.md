@@ -32,3 +32,10 @@ reported honestly; the plugin does not accept an API key as a workaround.
 
 Do not overwrite an existing marketplace named `grill-me-jewel` that points to another source.
 Report its source and let the user decide whether to remove or rename the conflicting installation.
+
+## Update is blocked or rolled back
+
+Use the permanent [UPDATE.md](../UPDATE.md) Runbook rather than `marketplace upgrade` alone. Read the
+updater JSON fields `fromVersion`, `toVersion`, `restoredPlugins`, and `rolledBack`. When rollback is
+true, the previous version was restored and remains usable after restart. When false, stop and report
+the recorded actions and error; do not edit plugin caches or marketplace configuration by hand.

@@ -9,5 +9,6 @@ test("install prompt and release ref target the official repository", () => {
   const install = readFileSync(resolve(ROOT, "INSTALL.md"), "utf8");
   assert.match(readme, /raw\.githubusercontent\.com\/yuyou-dev\/GrillMeJewel\/main\/INSTALL\.md/);
   assert.match(install, /yuyou-dev\/GrillMeJewel/);
-  assert.match(install, /--ref v0\.1\.1/);
+  assert.match(install, /--ref v0\.2\.0/);
+  assert.match(readme, /raw\.githubusercontent\.com\/yuyou-dev\/GrillMeJewel\/main\/UPDATE\.md/);
 });

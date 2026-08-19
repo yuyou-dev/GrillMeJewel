@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+## 0.2.0 - 2026-08-19
+
+- Expanded Grill Me into four required discovery stages plus separate brief confirmation.
+- Added an explicit 1/2/4/8/custom delivery-count choice instead of silently defaulting to one image.
+- Added a candidate-distance matrix so multi-image delivery changes at least three visible design axes per direction.
+- Versioned the staged interview resource as `interview/v3.html` to avoid stale host caches.
+- Added a permanent one-prompt update Runbook with fixed-release migration, observable version fields, and verified rollback.
+
 ## 0.1.1
 
 - Refined the public README with a real Apps UI image, clearer workflow, and platform guidance.
