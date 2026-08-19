@@ -7,6 +7,8 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const ignored = new Set(["scripts/public-scan.mjs", "tests/public-release.test.mjs"]);
+// Verified through GitHub's public-emails API for yuyou-dev. Other non-noreply addresses fail.
+const allowedCommitEmails = new Set(["noreply@github.com", "yy18314@gmail.com"]);
 const forbiddenNames = [/(?:^|\/)(?:\.DS_Store|__pycache__)(?:\/|$)/, /\.pyc$/, /(?:^|\/)\.env(?:\.|$)/, /(?:^|\/)(?:auth|credentials?)\.json$/i, /(?:^|\/)id_(?:rsa|ed25519)(?:\.pub)?$/i];
 const forbiddenContent = [
   ["macOS user home", /\/Users\/[A-Za-z0-9._-]+\//],
@@ -44,8 +46,8 @@ if (existsSync(resolve(ROOT, ".git"))) {
   try {
     // Pull-request CI uses a synthetic merge commit that is never published to linear-history main.
     const identities = execFileSync("git", ["log", "--no-merges", "--format=%ae%x00%ce", "--all"], { cwd: ROOT, encoding: "utf8" }).split("\n").filter(Boolean);
-    const isGitHubNoreply = (email) => email === "noreply@github.com" || email.endsWith("@users.noreply.github.com");
-    for (const identity of identities) for (const email of identity.split("\0")) if (email && !isGitHubNoreply(email)) findings.push({ file: ".git", rule: "public commit email must use GitHub noreply" });
+    const isAllowedPublicIdentity = (email) => allowedCommitEmails.has(email) || email.endsWith("@users.noreply.github.com");
+    for (const identity of identities) for (const email of identity.split("\0")) if (email && !isAllowedPublicIdentity(email)) findings.push({ file: ".git", rule: "public commit email must be GitHub noreply or an approved public profile address" });
   } catch { findings.push({ file: ".git", rule: "unable to verify public commit identities" }); }
 }
 
