@@ -1,6 +1,6 @@
 {
   "name": "grill-me-jewel",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A guided jewelry interview that turns vague ideas into confirmed gpt-image-2 jewelry designs.",
   "author": {
     "name": "苏哇科技",
@@ -14,7 +14,7 @@
   "interface": {
     "displayName": "Grill Me 珠宝",
     "shortDescription": "通过结构化访谈明确方向，并用 gpt-image-2 生成珠宝设计图。",
-    "longDescription": "Grill Me Jewel asks a few focused questions at a time in a compact Apps UI, preserves prior answers, confirms one coherent jewelry brief, and then uses Codex gpt-image-2 to generate the requested independent design images.",
+    "longDescription": "Grill Me Jewel guides designers through four focused Apps UI discovery stages, confirms the delivery count and a coherent jewelry brief, then uses Codex gpt-image-2 to generate visibly differentiated independent design images.",
     "developerName": "苏哇科技",
     "category": "Productivity",
     "websiteURL": "https://github.com/yuyou-dev/GrillMeJewel",

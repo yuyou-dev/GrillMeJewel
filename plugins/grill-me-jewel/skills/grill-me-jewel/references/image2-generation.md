@@ -20,12 +20,19 @@ Build each prompt in this order:
 
 ## Multiple Designs
 
-For N requested designs, call image generation N times and vary only a named design branch such as
-structure, motif translation, material craft, or silhouette. Keep all locked facts consistent. Each
-result is a separate image asset; a grid preview does not count as N deliverables.
+For N requested designs, assign `GMJ-A` through `GMJ-H` in order and call image generation N times.
+Start from the confirmed candidate matrix; do not ask the image model to improvise generic
+"variations." Keep category, wearing logic, central story, and locked materials identical. For each
+candidate, write its branch role and at least three explicit visible changes across silhouette,
+setting architecture, motif translation, stone layout, negative space, massing, or material craft.
+
+Keep presentation sufficiently consistent for comparison. Crop, background, lighting, camera angle,
+and adjective changes do not count as design distance. Each result is a separate image asset; a grid
+preview does not count as N deliverables.
 
 ## Completion
 
-Verify the tool returned the expected number of readable images and that the visible product type
-matches the confirmed category. Do not perform subjective ranking or automatic regeneration unless
-the user explicitly asks for critique or revision.
+Verify the tool returned the accepted `delivery_count` of readable images, the visible product type
+matches the confirmed category, and the candidates exhibit their planned structural differences.
+Do not perform subjective ranking or automatic regeneration unless the user explicitly asks for
+critique or revision.

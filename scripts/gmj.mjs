@@ -7,7 +7,8 @@ import { fileURLToPath } from "node:url";
 
 const MARKETPLACE = "grill-me-jewel";
 const SOURCE = "yuyou-dev/GrillMeJewel";
-const REF = "v0.1.1";
+const REF = "v0.2.0";
+const TARGET_VERSION = "0.2.0";
 const PLUGIN = "grill-me-jewel";
 const PLUGIN_ID = `${PLUGIN}@${MARKETPLACE}`;
 const MCP = "grill_me_jewel_ui";
@@ -113,6 +114,14 @@ function conflict(state) {
 }
 function action(label, args) { return { label, command: "codex", args }; }
 function applyAction(codex, item, dryRun) { if (!dryRun) execute(codex, [...item.args, "--json"], { json: true }); }
+function versionOf(entry) { return typeof entry?.version === "string" && entry.version ? entry.version : null; }
+function updateResult(overrides = {}) {
+  return {
+    command: "update", status: "blocked", dryRun: false,
+    fromVersion: null, toVersion: TARGET_VERSION, migration: "fixed-release-ref",
+    restoredPlugins: [], rolledBack: false, actions: [], ...overrides,
+  };
+}
 
 async function doctor(options) {
   const checks = localChecks();
@@ -153,15 +162,60 @@ async function bootstrap(options) {
 }
 
 async function update(options) {
-  const actions = [action("upgrade marketplace", ["plugin", "marketplace", "upgrade", MARKETPLACE]), action("refresh plugin", ["plugin", "add", PLUGIN_ID])];
-  if (options.dryRun) return { command: "update", status: "restart_required", dryRun: true, actions };
+  const planned = [
+    action("remove old fixed-ref marketplace", ["plugin", "marketplace", "remove", MARKETPLACE]),
+    action("add v0.2.0 marketplace", ["plugin", "marketplace", "add", SOURCE, "--ref", REF]),
+    action("restore plugin", ["plugin", "add", PLUGIN_ID]),
+  ];
+  if (options.dryRun) return updateResult({ status: "restart_required", dryRun: true, actions: planned });
   const codex = resolveCodex();
-  if (!codex) return { command: "update", status: "blocked", dryRun: false, actions: [], reason: "Codex CLI was not found" };
+  if (!codex) return updateResult({ reason: "Codex CLI was not found" });
   const state = inspect(codex); const reason = conflict(state);
-  if (reason) return { command: "update", status: "blocked", dryRun: false, actions: [], reason };
-  if (!marketplace(state.marketplaces)) return { command: "update", status: "blocked", dryRun: false, actions: [], reason: "run bootstrap before update" };
-  for (const item of actions) applyAction(codex, item, false);
-  return { command: "update", status: "restart_required", dryRun: false, actions };
+  if (reason) return updateResult({ reason });
+  if (!marketplace(state.marketplaces)) return updateResult({ reason: "GrillMeJewel is not installed; follow INSTALL.md first" });
+  const current = installed(state.plugins, true);
+  const fromVersion = versionOf(current);
+  if (!current) return updateResult({ fromVersion, reason: "the plugin is not installed; follow INSTALL.md first" });
+  const restoreIds = [PLUGIN_ID];
+
+  if (fromVersion === TARGET_VERSION && current.enabled !== false) {
+    const refresh = action("verify v0.2.0 marketplace", ["plugin", "marketplace", "upgrade", MARKETPLACE]);
+    applyAction(codex, refresh, false);
+    const after = inspect(codex); const verified = installed(after.plugins);
+    return updateResult({
+      status: verified && versionOf(verified) === TARGET_VERSION ? "ready" : "blocked",
+      fromVersion, migration: "already-current", restoredPlugins: restoreIds, actions: [refresh],
+      ...(!(verified && versionOf(verified) === TARGET_VERSION) ? { reason: "v0.2.0 verification failed" } : {}),
+    });
+  }
+
+  const oldRef = fromVersion ? `v${fromVersion}` : null;
+  const actions = [];
+  let removedOld = false;
+  try {
+    applyAction(codex, planned[0], false); actions.push(planned[0]); removedOld = true;
+    applyAction(codex, planned[1], false); actions.push(planned[1]);
+    applyAction(codex, planned[2], false); actions.push(planned[2]);
+    const after = inspect(codex); const verified = installed(after.plugins);
+    if (!verified || versionOf(verified) !== TARGET_VERSION) throw new Error("target plugin version verification failed");
+    return updateResult({ status: "restart_required", fromVersion, restoredPlugins: restoreIds, actions });
+  } catch (caught) {
+    let rolledBack = false;
+    if (removedOld && oldRef) {
+      try {
+        if (marketplace(inspect(codex).marketplaces)) {
+          const removePartial = action("remove incomplete target marketplace", ["plugin", "marketplace", "remove", MARKETPLACE]);
+          applyAction(codex, removePartial, false); actions.push(removePartial);
+        }
+        const restoreMarket = action(`restore ${oldRef} marketplace`, ["plugin", "marketplace", "add", SOURCE, "--ref", oldRef]);
+        applyAction(codex, restoreMarket, false); actions.push(restoreMarket);
+        const restorePlugin = action("restore previous plugin", ["plugin", "add", PLUGIN_ID]);
+        applyAction(codex, restorePlugin, false); actions.push(restorePlugin);
+        rolledBack = versionOf(installed(inspect(codex).plugins, true)) === fromVersion;
+      } catch { rolledBack = false; }
+    }
+    return updateResult({ fromVersion, restoredPlugins: restoreIds, rolledBack, actions, reason: caught.message });
+  }
 }
 
 async function uninstall(options) {
