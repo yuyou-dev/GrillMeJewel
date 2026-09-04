@@ -31,7 +31,7 @@ irreversible unknown remains. Use `stage: confirmation` only after the four requ
 
 The brief must distinguish locked facts from flexible details, avoid invented gem or brand claims,
 and be understandable without this plugin. It must be precise enough to compile into a professional
-gpt-image-2 jewelry prompt without guessing product identity.
+image-generation prompt without guessing product identity.
 
 For multiple images, the brief also includes a candidate matrix. Keep the jewelry category, wearing
 logic, central story, and locked hero materials stable. Adapt the first N roles below to the user's

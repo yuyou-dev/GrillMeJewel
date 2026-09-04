@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; img-src data: blob:; style-src 'unsafe-inline'">
+  <title>Grill Me 珠宝</title>
+  <style>
+    :root{color-scheme:light dark;--ink:#151515;--muted:#707070;--line:color-mix(in srgb,currentColor 13%,transparent);--panel:color-mix(in srgb,currentColor 4%,transparent);--gold:#b88a35}
+    *{box-sizing:border-box}html,body{margin:0;overflow:hidden;background:transparent;font:15px/1.45 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
+    body{padding:18px 20px 16px}.app{max-width:920px;margin:0 auto}.loading{min-height:260px;display:grid;place-content:center;text-align:center;color:var(--muted);gap:12px}.mark{font:700 17px/1 Georgia,serif;color:var(--gold);letter-spacing:.12em}
+    header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:15px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}.title{font-size:24px;line-height:1.2;margin:4px 0 5px}.intro{color:var(--muted);max-width:680px}.progress{white-space:nowrap;font-size:13px;color:var(--muted);padding-top:5px}.bar{height:3px;background:var(--line);margin-bottom:18px}.bar>i{display:block;height:100%;background:var(--ink);transition:width .2s ease}
+    fieldset{border:0;margin:0;padding:0;min-height:190px}legend{font-size:19px;font-weight:700;padding:0;margin-bottom:5px}.help{color:var(--muted);margin-bottom:13px}.required{color:var(--gold);font-size:12px;margin-left:6px}.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.option{display:block;position:relative}.option input{position:absolute;opacity:0;pointer-events:none}.option span{display:block;border:1px solid var(--line);border-radius:12px;padding:12px 13px;min-height:52px;background:var(--panel);cursor:pointer;transition:.15s}.option b{display:block;font-size:15px}.option small{display:block;color:var(--muted);margin-top:2px}.option input:focus-visible+span{outline:2px solid var(--gold);outline-offset:2px}.option input:checked+span{background:var(--ink);color:white;border-color:var(--ink)}.option input:checked+span small{color:#d8d8d8}
+    textarea,.other{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:inherit;padding:12px 13px;font:inherit;resize:none;outline:none}.other{margin-top:9px;height:44px}.other:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 18%,transparent)}textarea{height:126px}.error{min-height:21px;color:#b42318;font-size:13px;margin-top:8px}
+    footer{border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;padding-top:13px}.actions{display:flex;gap:9px;margin-left:auto}button{border:0;border-radius:999px;padding:10px 17px;font:700 14px/1 inherit;cursor:pointer}.ghost{background:transparent;color:inherit;border:1px solid var(--line)}.primary{background:#111;color:#fff}.primary:disabled,.ghost:disabled{opacity:.42;cursor:not-allowed}.submitted{min-height:250px;display:grid;place-content:center;text-align:center;gap:8px}.submitted h2{margin:0;font-size:22px}.submitted p{margin:0;color:var(--muted)}
+    .gallery-head{align-items:center}.gallery-meta{display:flex;align-items:center;gap:9px;margin-top:5px;color:var(--muted);font-size:13px}.mode-pill{border:1px solid var(--line);border-radius:999px;padding:3px 8px;color:var(--ink);font-weight:700}.result-stage{display:grid;gap:12px}.visual{position:relative;aspect-ratio:1/1;max-height:400px;overflow:hidden;border-radius:16px;background:#f1f0ed;border:1px solid var(--line)}.result-stage.has-navigation .visual{max-height:380px}.visual img{display:block;width:100%;height:100%;object-fit:contain}.compare{--reveal:50%}.compare .result-image{position:absolute;inset:0;clip-path:inset(0 0 0 var(--reveal))}.compare-line{position:absolute;top:0;bottom:0;left:var(--reveal);width:2px;background:#fff;box-shadow:0 0 0 1px #2228;transform:translateX(-1px);pointer-events:none}.compare-handle{position:absolute;left:var(--reveal);top:50%;width:38px;height:38px;border-radius:50%;display:grid;place-content:center;transform:translate(-50%,-50%);background:#fff;color:#111;box-shadow:0 3px 14px #0003;font-weight:900;pointer-events:none}.compare input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}.image-label{position:absolute;top:12px;z-index:2;border-radius:999px;background:#111c;color:#fff;padding:5px 9px;font-size:12px;font-weight:700;pointer-events:none}.image-label.before{left:12px}.image-label.after{right:12px}.result-copy h2{margin:0 0 3px;font-size:19px}.result-copy p{margin:0;color:var(--muted)}.gallery-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:13px}.dots{display:flex;justify-content:center;gap:6px;flex:1}.dot{width:7px;height:7px;border-radius:50%;background:var(--line)}.dot.current{background:var(--gold)}
+    @media(max-width:620px){body{padding:14px}.title{font-size:21px}.options{grid-template-columns:1fr}fieldset{min-height:220px}.progress{font-size:12px}header{gap:8px}.visual{max-height:320px;border-radius:13px}.result-stage.has-navigation .visual{max-height:290px}.gallery-nav button{padding:9px 13px}}
+    @media(prefers-color-scheme:dark){:root{--ink:#f4f4f4;--muted:#aaa;--gold:#d0a54e}.primary{background:#f5f5f5;color:#111}.option input:checked+span{background:#f5f5f5;color:#111}.option input:checked+span small{color:#555}}
+  </style>
+</head>
+<body>
+  <main class="app" id="app"><section class="loading" id="loading"><div class="mark">GMJ</div><div>正在载入访谈问题…</div></section></main>
+  <script type="module">
+  (()=>{
+    "use strict";
+
+    class WorkBuddyBridge{
+      constructor({name,version,autoResize=false}){
+        this.name=name;
+        this.version=version;
+        this.autoResize=autoResize;
+        this.seq=1;
+        this.pending=new Map();
+        this.hostContext={};
+        window.addEventListener("message",event=>this.receive(event));
+      }
+      send(message){window.parent.postMessage(message,"*")}
+      request(method,params,timeoutMs=15000){
+        return new Promise((resolve,reject)=>{
+          const id=this.seq++;
+          const timer=setTimeout(()=>{
+            if(this.pending.delete(id))reject(new Error(`WorkBuddy 请求超时：${method}`));
+          },timeoutMs);
+          this.pending.set(id,{resolve,reject,timer});
+          this.send({jsonrpc:"2.0",id,method,params});
+        });
+      }
+      notify(method,params){this.send({jsonrpc:"2.0",method,params})}
+      updateModelContext(params){return this.request("ui/update-model-context",params)}
+      sendMessage(params){return this.request("ui/message",params)}
+      receive(event){
+        const message=event?.data;
+        if(!message||typeof message!=="object"||message.jsonrpc!=="2.0")return;
+        if(message.id!==undefined&&this.pending.has(message.id)){
+          const pending=this.pending.get(message.id);
+          this.pending.delete(message.id);
+          clearTimeout(pending.timer);
+          message.error?pending.reject(new Error(message.error.message)):pending.resolve(message.result);
+          return;
+        }
+        if(message.method==="ui/notifications/tool-result")this.ontoolresult?.(message.params);
+        else if(message.method==="ui/notifications/tool-input")this.ontoolinput?.(message.params);
+        else if(message.method==="ui/notifications/host-context-changed"){
+          this.hostContext={...this.hostContext,...message.params};
+          this.onhostcontextchanged?.(this.hostContext);
+        }
+      }
+      reportSize(){
+        const width=Math.ceil(Math.max(1,window.innerWidth||0,document.body?.scrollWidth||0,document.documentElement?.scrollWidth||0));
+        const height=Math.ceil(Math.max(1,document.body?.scrollHeight||0,document.documentElement?.scrollHeight||0));
+        this.notify("ui/notifications/size-changed",{width,height});
+      }
+      async connect(){
+        const result=await this.request("ui/initialize",{
+          appInfo:{name:this.name,version:this.version},
+          appCapabilities:{
+            experimental:{},
+            tools:{listChanged:false},
+            availableDisplayModes:["inline","fullscreen"],
+          },
+          protocolVersion:"2026-01-26",
+        });
+        this.hostContext=result?.hostContext||{};
+        this.notify("ui/notifications/initialized",{});
+        if(this.autoResize){
+          const resize=()=>requestAnimationFrame(()=>this.reportSize());
+          resize();
+          if(typeof ResizeObserver!=="undefined")new ResizeObserver(resize).observe(document.body);
+        }
+        return result;
+      }
+    }
+
+    let active=null,index=0,answers={},otherText={},submitting=false,received=false,galleryState=null,galleryIndex=0;
+    const root=document.getElementById("app");
+    const app=new WorkBuddyBridge({name:"jewel-buddy-interview",version:"0.3.4",autoResize:true});
+    const parseInterview=(value,depth=0)=>{if(depth>8||value==null)return null;if(typeof value==="string"){try{return parseInterview(JSON.parse(value),depth+1)}catch{return null}}if(Array.isArray(value)){for(const item of value){const found=parseInterview(item,depth+1);if(found)return found}return null}if(typeof value!=="object")return null;if(value.interview?.questions)return value.interview;if(value.structuredContent)return parseInterview(value.structuredContent,depth+1);if(value.result)return parseInterview(value.result,depth+1);if(value.content)return parseInterview(value.content,depth+1);if(value.text)return parseInterview(value.text,depth+1);return null};
+    const parseGallery=(value,depth=0)=>{if(depth>8||value==null)return null;if(typeof value==="string"){try{return parseGallery(JSON.parse(value),depth+1)}catch{return null}}if(Array.isArray(value)){for(const item of value){const found=parseGallery(item,depth+1);if(found)return found}return null}if(typeof value!=="object")return null;if(value.structuredContent?.gallery?.items)return{gallery:value.structuredContent.gallery,content:Array.isArray(value.content)?value.content:[]};if(value.gallery?.items)return{gallery:value.gallery,content:Array.isArray(value.content)?value.content:[]};if(value.result)return parseGallery(value.result,depth+1);return null};
+    const toolError=(value,depth=0)=>{if(depth>8||value==null)return "";if(typeof value==="string"){try{return toolError(JSON.parse(value),depth+1)}catch{return ""}}if(Array.isArray(value)){for(const item of value){const found=toolError(item,depth+1);if(found)return found}return ""}if(typeof value!=="object")return "";if(value.isError){const message=Array.isArray(value.content)?value.content.find(item=>item?.type==="text")?.text:"";return message||value.error?.message||"表单载入失败。"}for(const key of ["result","structuredContent","content","text"]){const found=toolError(value[key],depth+1);if(found)return found}return ""};
+    const terminal=(message)=>{active=null;galleryState=null;received=true;root.innerHTML=`<section class="loading"><div class="mark">GMJ</div><div>${escapeHtml(message)}</div></section>`};
+    const escapeHtml=(s)=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+    const hasAnswer=(q)=>q.type==="multi"?Array.isArray(answers[q.id])&&answers[q.id].length>0:String(answers[q.id]??"").trim().length>0;
+    function optionMarkup(q,o){const checked=q.type==="multi"?(answers[q.id]||[]).includes(o.value):answers[q.id]===o.value;return `<label class="option"><input type="${q.type==="multi"?"checkbox":"radio"}" name="${escapeHtml(q.id)}" value="${escapeHtml(o.value)}" ${checked?"checked":""}><span><b>${escapeHtml(o.label)}</b>${o.description?`<small>${escapeHtml(o.description)}</small>`:""}</span></label>`}
+    function render(){if(!active)return;const q=active.questions[index];const selectedOther=q.type==="multi"?(answers[q.id]||[]).includes("other"):answers[q.id]==="other";root.innerHTML=`<header><div><div class="eyebrow" aria-label="${escapeHtml(active.stageLabel)} · 第 ${active.round} 轮">Suwa Technology · Grill Me Jewel · Round ${active.round}</div><h1 class="title">${escapeHtml(active.title)}</h1>${active.intro?`<div class="intro">${escapeHtml(active.intro)}</div>`:""}</div><div class="progress">${index+1} / ${active.questions.length}</div></header><div class="bar"><i style="width:${((index+1)/active.questions.length)*100}%"></i></div><fieldset><legend>${escapeHtml(q.label)}${q.required?'<span class="required">必答</span>':""}</legend>${q.help?`<div class="help">${escapeHtml(q.help)}</div>`:""}${q.type==="text"?`<textarea id="textAnswer" maxlength="800" placeholder="${escapeHtml(q.placeholder||"请写下你的想法")}">${escapeHtml(answers[q.id]||"")}</textarea>`:`<div class="options">${q.options.map(o=>optionMarkup(q,o)).join("")}</div>${selectedOther?`<input class="other" id="otherAnswer" maxlength="160" placeholder="请补充具体方向" value="${escapeHtml(otherText[q.id]||"")}">`:""}`}<div class="error" id="error"></div></fieldset><footer><button class="ghost" id="back" ${index===0?"disabled":""}>上一题</button><div class="actions">${index<active.questions.length-1?'<button class="primary" id="next">下一题</button>':`<button class="primary" id="submit">${escapeHtml(active.submitLabel)}</button>`}</div></footer>`;
+      bind(q);
+      app.reportSize();
+    }
+    function bind(q){if(q.type==="text")document.getElementById("textAnswer").addEventListener("input",e=>answers[q.id]=e.target.value);else document.querySelectorAll(`input[name="${CSS.escape(q.id)}"]`).forEach(input=>input.addEventListener("change",e=>{if(q.type==="multi"){const set=new Set(answers[q.id]||[]);e.target.checked?set.add(e.target.value):set.delete(e.target.value);answers[q.id]=[...set]}else answers[q.id]=e.target.value;render()}));document.getElementById("otherAnswer")?.addEventListener("input",e=>otherText[q.id]=e.target.value);document.getElementById("back").onclick=()=>{if(index>0){index--;render()}};document.getElementById("next")?.addEventListener("click",()=>{if(validate(q)){index++;render()}});document.getElementById("submit")?.addEventListener("click",()=>{if(validate(q))submit()})}
+    function validationMessage(q){if(q.required&&!hasAnswer(q))return "请先完成这一题。";const selected=q.type==="multi"?(answers[q.id]||[]).includes("other"):answers[q.id]==="other";if(selected&&!String(otherText[q.id]||"").trim())return "请补充“其他”的具体内容。";return ""}
+    function validate(q){const message=validationMessage(q);document.getElementById("error").textContent=message;return !message}
+    const answerLabel=(q)=>{const raw=answers[q.id];if(q.type==="text")return String(raw||"").trim();const values=Array.isArray(raw)?raw:[raw];return values.filter(Boolean).map(v=>v==="other"?`其他：${String(otherText[q.id]||"").trim()}`:(q.options.find(o=>o.value===v)?.label||v)).join("、")};
+    async function submit(){
+      if(submitting)return;
+      const invalid=active.questions.findIndex(q=>validationMessage(q));
+      if(invalid>=0){index=invalid;render();document.getElementById("error").textContent=validationMessage(active.questions[invalid]);return}
+      submitting=true;
+      const submitButton=document.getElementById("submit");
+      if(submitButton)submitButton.disabled=true;
+      const payload={schemaVersion:2,round:active.round,stage:active.stage,stageLabel:active.stageLabel,minimumDiscoveryRounds:active.minimumDiscoveryRounds,answers:active.questions.map(q=>({id:q.id,label:q.label,value:answers[q.id]??(q.type==="multi"?[]:""),displayValue:answerLabel(q)||"未填写",...(otherText[q.id]?{otherText:otherText[q.id]}:{})}))};
+      const instruction=active.stage==="confirmation"
+        ?"读取确认结果；已确认时按 brief 调用真实图片生成工具，等待全部图片成功后先在主对话展示图片，再调用 show_jewel_results。要求修改时先修订并再次确认。"
+        :"保留本轮回答，直接调用 ask_grill_me_questions 展示下一个未完成阶段；不要用正文复述答案、题目或流程。";
+      const context=`Jewel Buddy structured submission.\n${JSON.stringify(payload)}\nInstruction: ${instruction}`;
+      const message=active.stage==="confirmation"
+        ?"已提交 Jewel Buddy 确认；请按已确认 brief 生成并展示结果。"
+        :`已提交 Jewel Buddy 第 ${active.round} 轮；请直接展示下一轮表单。`;
+      try{
+        await app.updateModelContext({
+          content:[{type:"text",text:context}],
+          structuredContent:{jewelBuddySubmission:payload},
+        });
+        const messageResult=await app.sendMessage({
+          role:"user",
+          content:[{type:"text",text:message}],
+          _meta:{"codebuddy.ai/sendMessageMode":"send"},
+        });
+        if(messageResult?.isError)throw new Error("WorkBuddy rejected ui/message");
+        root.innerHTML=`<section class="submitted"><div class="mark">GMJ</div><h2>本阶段已提交</h2><p>${active.stage==="confirmation"?"正在请求主对话确认并生成设计图。":"我会保留本轮回答，继续下一个设计阶段。"}</p></section>`;
+        app.reportSize();
+      }catch(e){
+        submitting=false;
+        if(submitButton)submitButton.disabled=false;
+        document.getElementById("error").textContent="提交到 WorkBuddy 失败，请重试。";
+      }
+    }
+    const validDataImage=(value)=>typeof value==="string"&&/^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/=\r\n]+$/.test(value);
+    const contentImage=(content,contentIndex)=>{const item=content?.[contentIndex];if(item?.type!=="image"||!/^image\/(?:png|jpeg|webp)$/.test(item.mimeType||"")||!/^[A-Za-z0-9+/=\r\n]+$/.test(item.data||""))return"";return`data:${item.mimeType};base64,${item.data.replace(/\s/g,"")}`};
+    const galleryImage=(content,item,prefix)=>{const standard=contentImage(content,item?.[`${prefix}ContentIndex`]);const inline=item?.[`${prefix}DataUri`];return standard||(validDataImage(inline)?inline:"")};
+    function renderGallery(){
+      if(!galleryState)return;
+      const {gallery,content}=galleryState;
+      const item=gallery.items[galleryIndex];
+      const resultSrc=galleryImage(content,item,"result");
+      const sourceSrc=galleryImage(content,item,"source");
+      if(!resultSrc||(gallery.mode==="image_to_image"&&!sourceSrc)){terminal("图片结果不完整，请让主对话重新展示。");return}
+      const isCompare=gallery.mode==="image_to_image";
+      const hasMultiple=gallery.items.length>1;
+      const visual=isCompare
+        ?`<div class="visual compare" id="compare"><img src="${sourceSrc}" alt="${escapeHtml(item.alt)}原图"><img class="result-image" src="${resultSrc}" alt="${escapeHtml(item.alt)}生成结果"><span class="image-label before">原图</span><span class="image-label after">生成图</span><i class="compare-line"></i><i class="compare-handle" aria-hidden="true">↔</i><input id="reveal" type="range" min="0" max="100" value="50" aria-label="拖动比较原图和生成图"></div>`
+        :`<div class="visual"><img src="${resultSrc}" alt="${escapeHtml(item.alt)}"></div>`;
+      const navigation=hasMultiple?`<nav class="gallery-nav" aria-label="设计结果翻页"><button class="ghost" id="previousResult" ${galleryIndex===0?"disabled":""}>上一张</button><div class="dots">${gallery.items.map((_,i)=>`<i class="dot ${i===galleryIndex?"current":""}"></i>`).join("")}</div><button class="ghost" id="nextResult" ${galleryIndex===gallery.items.length-1?"disabled":""}>下一张</button></nav>`:"";
+      root.innerHTML=`<header class="gallery-head"><div><div class="eyebrow">Suwa Technology · Grill Me Jewel · Results</div><h1 class="title">${escapeHtml(gallery.title)}</h1><div class="gallery-meta"><span class="mode-pill">${isCompare?"图生图对比":"设计成果"}</span><span>${gallery.items.length} 个结果</span></div></div><div class="progress">${galleryIndex+1} / ${gallery.items.length}</div></header><section class="result-stage ${hasMultiple?"has-navigation":""}">${visual}<div class="result-copy"><h2>${escapeHtml(item.title)}</h2>${item.caption?`<p>${escapeHtml(item.caption)}</p>`:""}</div></section>${navigation}`;
+      document.getElementById("previousResult")?.addEventListener("click",()=>{if(galleryIndex>0){galleryIndex--;renderGallery()}});
+      document.getElementById("nextResult")?.addEventListener("click",()=>{if(galleryIndex<gallery.items.length-1){galleryIndex++;renderGallery()}});
+      document.getElementById("reveal")?.addEventListener("input",event=>document.getElementById("compare")?.style.setProperty("--reveal",`${event.target.value}%`));
+      app.reportSize();
+    }
+    function accept(value){const candidate=parseInterview(value);if(candidate){if(!Array.isArray(candidate.questions)||candidate.questions.length<1){terminal("访谈问题不完整，请重新发起。");return true}received=true;galleryState=null;active=candidate;index=0;answers={};otherText={};submitting=false;render();return true}const gallery=parseGallery(value);if(!gallery)return false;if(!Array.isArray(gallery.gallery.items)||gallery.gallery.items.length<1){terminal("图片结果不完整，请让主对话重新展示。");return true}received=true;active=null;galleryState=gallery;galleryIndex=0;renderGallery();return true}
+    const applyTheme=(theme)=>{if(!theme)return;document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme};
+    app.ontoolresult=(result)=>{const message=toolError(result);if(message){terminal(message);return}if(!accept(result))terminal("访谈问题不完整，请重新发起。")};
+    app.ontoolinput=(input)=>{
+      const value=input?.arguments??input;
+      const interview=value?.interview?.questions?value.interview:(value?.questions?value:parseInterview(value));
+      if(interview){accept({interview});return}
+      const gallery=value?.gallery??value;
+      if(gallery&&Array.isArray(gallery.items)&&["text_to_image","image_to_image"].includes(gallery.mode)&&!galleryState){
+        received=true;
+        root.innerHTML='<section class="loading"><div class="mark">GMJ</div><div>正在等待图片数据…</div></section>';
+        app.reportSize();
+      }
+    };
+    app.onhostcontextchanged=(context)=>applyTheme(context?.theme);
+    app.connect().then(()=>applyTheme(app.hostContext?.theme)).catch(error=>terminal(`无法连接 WorkBuddy Apps UI：${error?.message||error}`));
+    setTimeout(()=>{if(!received)terminal("没有收到工具结果，请重新调用 Jewel Buddy。")},9000);
+  })();
+  </script>
+</body>
+</html>

@@ -26,6 +26,8 @@ jobs:
         run: npm test
       - name: Scan public content
         run: npm run scan:public
+      - name: Run offline doctor
+        run: npm run doctor
 
   release:
     needs: verify

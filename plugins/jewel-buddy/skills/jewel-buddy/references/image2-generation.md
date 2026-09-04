@@ -1,6 +1,7 @@
-# Image-2 Jewelry Generation
+# WorkBuddy Jewelry Image Generation
 
-After the user confirms the brief, generate real design images with Codex `$imagegen` / gpt-image-2.
+After the user confirms the brief, discover and use a real image-generation tool available in the
+current WorkBuddy session. Do not claim generation succeeded until the tool returns image assets.
 
 ## Prompt Order
 
@@ -20,7 +21,7 @@ Build each prompt in this order:
 
 ## Multiple Designs
 
-For N requested designs, assign `GMJ-A` through `GMJ-H` in order and call image generation N times.
+For N requested designs, assign `JB-A` through `JB-H` in order and call image generation N times.
 Start from the confirmed candidate matrix; do not ask the image model to improvise generic
 "variations." Keep category, wearing logic, central story, and locked materials identical. For each
 candidate, write its branch role and at least three explicit visible changes across silhouette,

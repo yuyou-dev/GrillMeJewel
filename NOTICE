@@ -1,11 +1,12 @@
 GrillMeJewel
 Copyright 2026 苏哇科技
 
-GrillMeJewel brand assets are distributed with the official plugin. Their use is governed by
-TRADEMARKS.md and is not an additional trademark grant under Apache-2.0.
+Names, the animated README header, and other marks referenced by this distribution remain governed
+by TRADEMARKS.md and are not an additional trademark grant under Apache-2.0. The WorkBuddy runtime
+does not require branded image assets.
 
 This product includes software developed by GrillMeJewel contributors and is distributed under the
 Apache License, Version 2.0. No third-party runtime libraries or model credentials are bundled.
 
-OpenAI, ChatGPT, Codex, and gpt-image-2 are trademarks or service names of OpenAI. This project is
-independent and is not an official OpenAI product.
+WorkBuddy and CodeBuddy are trademarks or service names of their respective owners. This project is
+an independent plugin distribution.

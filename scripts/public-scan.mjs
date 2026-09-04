@@ -1,17 +1,40 @@
 #!/usr/bin/env node
 
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { existsSync, lstatSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const ignored = new Set(["scripts/public-scan.mjs", "tests/public-release.test.mjs"]);
+const allowedBinaryFiles = new Map([
+  ["plugins/jewel-buddy/assets/brand/logo-header.webp", {
+    bytes: 180858,
+    sha256: "ac010cc6eb9bc33d638bd302cc1678e1e3fd1be47e5cd33fb16b25e040925afd",
+  }],
+]);
 // Verified through GitHub's public-emails API for yuyou-dev. Other non-noreply addresses fail.
 const allowedCommitEmails = new Set(["noreply@github.com", "yy18314@gmail.com"]);
-const forbiddenNames = [/(?:^|\/)(?:\.DS_Store|__pycache__)(?:\/|$)/, /\.pyc$/, /(?:^|\/)\.env(?:\.|$)/, /(?:^|\/)(?:auth|credentials?)\.json$/i, /(?:^|\/)id_(?:rsa|ed25519)(?:\.pub)?$/i];
+const forbiddenNames = [
+  /(?:^|\/)(?:\.DS_Store|__pycache__)(?:\/|$)/,
+  /\.pyc$/,
+  /(?:^|\/)\.env(?:\.|$)/,
+  /(?:^|\/)(?:auth|credentials?)\.json$/i,
+  /(?:^|\/)id_(?:rsa|ed25519)(?:\.pub)?$/i,
+  /^\.agents\/plugins\/marketplace\.json$/,
+  /(?:^|\/)\.codex-plugin(?:\/|$)/,
+  /^scripts\/gmj\.mjs$/,
+  /^tests\/lifecycle\.test\.mjs$/,
+  /^design-qa\.md$/,
+  /^tests\/fixtures\/workbuddy-visual-harness\.html$/,
+  /(?:^|\/)assets\/brand\/(?!README\.md$|logo-header\.webp$)/,
+  /(?:^|\/)agents\/openai\.yaml$/,
+  /(?:^|\/)generated-images(?:\/|$)/,
+];
 const forbiddenContent = [
   ["macOS user home", /\/Users\/[A-Za-z0-9._-]+\//],
+  ["macOS private temporary path", /\/private\/(?:tmp|var\/folders)\//],
   ["Windows user home", /[A-Za-z]:\\Users\\[^\\\r\n]+\\/],
   ["Linux user home", /\/home\/[A-Za-z0-9._-]+\//],
   ["private source repository", /SVT-Jewelry(?:DesignPlugins|-Skills-Image-2)/],
@@ -56,6 +79,14 @@ for (const file of files) {
   const path = resolve(ROOT, file);
   if (!existsSync(path) || !lstatSync(path).isFile()) continue;
   for (const pattern of forbiddenNames) if (pattern.test(file)) findings.push({ file, rule: "forbidden file name" });
+  if (allowedBinaryFiles.has(file)) {
+    const content = readFileSync(path);
+    const expected = allowedBinaryFiles.get(file);
+    if (content.length !== expected.bytes || createHash("sha256").update(content).digest("hex") !== expected.sha256) {
+      findings.push({ file, rule: "approved brand asset checksum or size changed" });
+    }
+    continue;
+  }
   if (ignored.has(file)) continue;
   const content = readFileSync(path).toString("utf8");
   for (const [rule, pattern] of forbiddenContent) if (pattern.test(content)) findings.push({ file, rule });
