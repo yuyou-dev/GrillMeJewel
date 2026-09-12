@@ -16,14 +16,14 @@ function fakeCodex(directory, initial = {}) {
   writeFileSync(implementation, `
 import {readFileSync,writeFileSync} from "node:fs";
 const path=${JSON.stringify(statePath)};const state=JSON.parse(readFileSync(path,"utf8"));const args=process.argv.slice(2).join(" ");const save=()=>writeFileSync(path,JSON.stringify(state));
-const argv=process.argv.slice(2);const versionForRef=(ref)=>String(ref||"").replace(/^v/,"")||"0.2.0";
+const argv=process.argv.slice(2);const versionForRef=(ref)=>String(ref||"").replace(/^v/,"")||"0.3.0";
 if(args.startsWith("login status"))process.stdout.write("Logged in");
 else if(args.startsWith("plugin marketplace list"))process.stdout.write(JSON.stringify({marketplaces:state.marketplace?[{name:"grill-me-jewel",marketplaceSource:{sourceType:"git",source:state.source}}]:[]}));
-else if(args.startsWith("plugin marketplace add")){const i=argv.indexOf("--ref");state.ref=i>=0?argv[i+1]:"v0.2.0";state.source="https://github.com/yuyou-dev/GrillMeJewel.git";state.marketplace=true;save();process.stdout.write("{}");}
+else if(args.startsWith("plugin marketplace add")){const i=argv.indexOf("--ref");state.ref=i>=0?argv[i+1]:"v0.3.0";state.source="https://github.com/yuyou-dev/GrillMeJewel.git";state.marketplace=true;save();process.stdout.write("{}");}
 else if(args.startsWith("plugin marketplace remove")){state.marketplace=false;state.installed=false;state.version=null;save();process.stdout.write("{}");}
 else if(args.startsWith("plugin marketplace upgrade"))process.stdout.write("{}");
-else if(args.startsWith("plugin list")){const installed=state.installed?[{pluginId:"grill-me-jewel@grill-me-jewel",name:"grill-me-jewel",marketplaceName:"grill-me-jewel",version:state.version,installed:true,enabled:true}]:[];const available=state.marketplace?[{name:"grill-me-jewel",marketplaceName:"grill-me-jewel",version:versionForRef(state.ref)}]:[];process.stdout.write(JSON.stringify({installed,available}));}
-else if(args.startsWith("plugin add")){const version=versionForRef(state.ref);if(process.env.FAKE_FAIL_TARGET==="1"&&version==="0.2.0")process.exit(7);state.installed=true;state.version=version;save();process.stdout.write("{}");}
+else if(args.startsWith("plugin list")){const installed=state.installed?[{pluginId:"grill-me-jewel@grill-me-jewel",name:"grill-me-jewel",marketplaceName:"grill-me-jewel",version:state.version,installed:true,enabled:true}]:[];const available=state.marketplace?[{name:"grill-me-jewel",marketplaceName:"grill-me-jewel",version:versionForRef(state.ref)}]:[];process.stdout.write(JSON.stringify({installed,available,padding:process.env.FAKE_LARGE_LIST ? "x".repeat(2*1024*1024) : ""}));}
+else if(args.startsWith("plugin add")){const version=versionForRef(state.ref);if(process.env.FAKE_FAIL_TARGET==="1"&&version==="0.3.0")process.exit(7);state.installed=true;state.version=version;save();process.stdout.write("{}");}
 else if(args.startsWith("plugin remove")){state.installed=false;save();process.stdout.write("{}");}
 else if(args.startsWith("mcp get"))process.stdout.write(JSON.stringify({name:"grill_me_jewel_ui",enabled:true}));
 else process.stdout.write("{}");
@@ -61,26 +61,26 @@ test("bootstrap is idempotent and uninstall preserves user files", () => {
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
 
-test("update migrates v0.1.1 to v0.2.0 with observable state", () => {
+test("update migrates v0.2.0 to v0.3.0 with observable state", () => {
   const directory = mkdtempSync(join(tmpdir(), "gmj-update-"));
   try {
-    const codex = fakeCodex(directory, { marketplace: true, ref: "v0.1.1", installed: true, version: "0.1.1" });
+    const codex = fakeCodex(directory, { marketplace: true, ref: "v0.2.0", installed: true, version: "0.2.0" });
     const result = run(["update", "--json"], { ...process.env, GMJ_CODEX_BIN: codex });
     assert.equal(result.status, 0, `${result.stderr}\n${result.stdout}`);
     const output = JSON.parse(result.stdout);
     assert.equal(output.status, "restart_required");
-    assert.equal(output.fromVersion, "0.1.1");
-    assert.equal(output.toVersion, "0.2.0");
+    assert.equal(output.fromVersion, "0.2.0");
+    assert.equal(output.toVersion, "0.3.0");
     assert.equal(output.migration, "fixed-release-ref");
     assert.deepEqual(output.restoredPlugins, ["grill-me-jewel@grill-me-jewel"]);
     assert.equal(output.rolledBack, false);
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
 
-test("update is idempotent at v0.2.0", () => {
+test("update is idempotent at v0.3.0", () => {
   const directory = mkdtempSync(join(tmpdir(), "gmj-current-"));
   try {
-    const codex = fakeCodex(directory, { marketplace: true, ref: "v0.2.0", installed: true, version: "0.2.0" });
+    const codex = fakeCodex(directory, { marketplace: true, ref: "v0.3.0", installed: true, version: "0.3.0" });
     const output = JSON.parse(run(["update", "--json"], { ...process.env, GMJ_CODEX_BIN: codex }).stdout);
     assert.equal(output.status, "ready");
     assert.equal(output.migration, "already-current");
@@ -91,7 +91,7 @@ test("update is idempotent at v0.2.0", () => {
 test("update stops on source conflict without mutation", () => {
   const directory = mkdtempSync(join(tmpdir(), "gmj-conflict-"));
   try {
-    const codex = fakeCodex(directory, { marketplace: true, ref: "v0.1.1", installed: true, version: "0.1.1", source: "https://example.invalid/not-official.git" });
+    const codex = fakeCodex(directory, { marketplace: true, ref: "v0.2.0", installed: true, version: "0.2.0", source: "https://example.invalid/not-official.git" });
     const result = run(["update", "--json"], { ...process.env, GMJ_CODEX_BIN: codex });
     assert.equal(result.status, 1);
     const output = JSON.parse(result.stdout);
@@ -100,14 +100,24 @@ test("update stops on source conflict without mutation", () => {
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
 
-test("failed target update restores v0.1.1", () => {
+test("failed target update restores v0.2.0", () => {
   const directory = mkdtempSync(join(tmpdir(), "gmj-rollback-"));
   try {
-    const codex = fakeCodex(directory, { marketplace: true, ref: "v0.1.1", installed: true, version: "0.1.1" });
+    const codex = fakeCodex(directory, { marketplace: true, ref: "v0.2.0", installed: true, version: "0.2.0" });
     const result = run(["update", "--json"], { ...process.env, GMJ_CODEX_BIN: codex, FAKE_FAIL_TARGET: "1" });
     assert.equal(result.status, 1);
     const output = JSON.parse(result.stdout);
     assert.equal(output.rolledBack, true);
-    assert.equal(output.fromVersion, "0.1.1");
+    assert.equal(output.fromVersion, "0.2.0");
+  } finally { rmSync(directory, { recursive: true, force: true }); }
+});
+
+ test("doctor reads plugin inventories larger than the default subprocess buffer", () => {
+  const directory = mkdtempSync(join(tmpdir(), "gmj-large-inventory-"));
+  try {
+    const codex = fakeCodex(directory, { marketplace: true, ref: "v0.3.0", installed: true, version: "0.3.0" });
+    const result = run(["doctor", "--json"], { ...process.env, GMJ_CODEX_BIN: codex, FAKE_LARGE_LIST: "1" });
+    assert.equal(result.status, 0, result.stdout + result.stderr);
+    assert.notEqual(JSON.parse(result.stdout).status, "blocked");
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });

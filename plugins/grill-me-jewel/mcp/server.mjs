@@ -5,7 +5,7 @@ import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
 
 const SERVER_NAME = "grill_me_jewel_ui";
-const SERVER_VERSION = "0.2.0";
+const SERVER_VERSION = "0.3.0";
 const MCP_VERSION = "2025-11-25";
 const RESOURCE_URI = "ui://grill-me-jewel/interview/v3.html";
 const HTML_PATH = fileURLToPath(new URL("./interview.html", import.meta.url));
@@ -86,10 +86,12 @@ function normalizeInterview(args) {
   if (!Number.isInteger(round) || round < 1 || round > 12) throw new Error("round must be an integer from 1 to 12");
   const stage = text(args.stage, "stage", 30);
   if (!Object.hasOwn(STAGE_LABELS, stage)) throw new Error("stage is unsupported");
-  if (round <= 4 && stage !== DISCOVERY_STAGES[round - 1]) {
+  const mode = args.mode || "full";
+  if (!["full", "adaptive"].includes(mode)) throw new Error("mode must be full or adaptive");
+  if (mode === "full" && round <= 4 && stage !== DISCOVERY_STAGES[round - 1]) {
     throw new Error(`round ${round} must use stage ${DISCOVERY_STAGES[round - 1]}`);
   }
-  if (round > 4 && !new Set(["deepening", "confirmation"]).has(stage)) {
+  if (mode === "full" && round > 4 && !new Set(["deepening", "confirmation"]).has(stage)) {
     throw new Error("rounds after four must use deepening or confirmation");
   }
   return {
@@ -99,7 +101,8 @@ function normalizeInterview(args) {
     round,
     stage,
     stageLabel: STAGE_LABELS[stage],
-    minimumDiscoveryRounds: 4,
+    mode,
+    minimumDiscoveryRounds: mode === "full" ? 4 : 0,
     submitLabel: optionalText(args.submitLabel, "submitLabel", 30) || "提交本轮回答",
     questions,
   };
@@ -108,7 +111,7 @@ function normalizeInterview(args) {
 function toolDescriptor() {
   return {
     name: "ask_grill_me_questions",
-    description: "Present one Grill Me Jewel interview round. Complete foundation, meaning, design_language, and variation_delivery as four sequential discovery rounds before a separate confirmation round. Ask 1-4 unresolved questions per round, collect delivery_count once when absent, and define wide candidate variation for multi-image delivery. The UI shows one question at a time and returns stable answer ids.",
+    description: "Present one Grill Me Jewel interview round. Prefer mode adaptive to reuse known facts and ask only unresolved design decisions; retain full mode for four sequential discovery rounds. Both modes require a separate confirmation round. Ask 1-4 unresolved questions per round, collect delivery_count once when absent, and define wide candidate variation for multi-image delivery. The UI shows one question at a time and returns stable answer ids.",
     inputSchema: {
       type: "object",
       additionalProperties: false,
@@ -116,6 +119,7 @@ function toolDescriptor() {
       properties: {
         title: { type: "string", minLength: 1, maxLength: 80 },
         intro: { type: "string", maxLength: 240 },
+        mode: { type: "string", enum: ["full", "adaptive"], default: "full", description: "Adaptive asks only unresolved design decisions; both modes require a separate brief confirmation." },
         round: { type: "integer", minimum: 1, maximum: 12 },
         stage: { type: "string", enum: [...DISCOVERY_STAGES, "deepening", "confirmation"] },
         submitLabel: { type: "string", maxLength: 30 },

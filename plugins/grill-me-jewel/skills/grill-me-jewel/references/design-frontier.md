@@ -1,7 +1,7 @@
 # Jewelry Design Frontier
 
-Complete every discovery stage once. Ask only unresolved decisions inside that stage, using deeper
-questions when the user's prompt already established the obvious facts.
+Adaptive mode asks only unresolved decisions that affect the result and skips established facts.
+Full mode completes every discovery stage once, using deeper questions when obvious facts are known.
 
 ## Four discovery stages
 
@@ -14,8 +14,8 @@ questions when the user's prompt already established the obvious facts.
 4. **Variation and delivery (`stage: variation_delivery`, round 4):** output family, presentation,
    locked facts, flexible axes, exploration spread, and any required source asset.
 
-Use `stage: deepening` only for a fifth or later discovery round when a material contradiction or
-irreversible unknown remains. Use `stage: confirmation` only after the four required stages.
+In full mode, use `stage: deepening` only from round five and confirmation after the four stages.
+In adaptive mode, move to a separate confirmation round as soon as the necessary facts are resolved.
 
 ## Routing Rules
 

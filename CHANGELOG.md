@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.3.0 - release candidate
+
+- Handle large Codex plugin inventories during installation and doctor checks.
+
+- Added adaptive interviews that skip known facts while keeping explicit full-depth interviews.
+- Preserved a separate brief confirmation and independent image delivery count.
+- Clarified that prompt wording cannot attest an image model.
+
 ## 0.2.0 - 2026-08-19
 
 - Expanded Grill Me into four required discovery stages plus separate brief confirmation.

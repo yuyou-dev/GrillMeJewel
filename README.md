@@ -15,7 +15,7 @@
 <p align="center"><strong>把一句模糊的珠宝想法，变成一组有清晰差异的真实设计图。</strong></p>
 
 GrillMeJewel 是苏哇科技推出的开源 Codex 插件，为珠宝创意而生。它通过简洁优雅的
-Apps UI 通过四个有目的的探索阶段追问你的想法，把零散的灵感沉淀为一份清晰、专业的
+Apps UI 默认按需追问影响设计的缺失信息，深度访谈模式保留四个探索阶段，把零散的灵感沉淀为一份清晰、专业的
 珠宝设计 brief；你可以选择 1、2、4、8 张或自定义数量，确认后再由 Codex gpt-image-2
 生成结构与造型都能看出差异的真实珠宝设计图。无需任何专业背景，
 一句话就能开始。
@@ -54,7 +54,7 @@ Codex 会自动完成环境检查、插件安装与健康检查，随后提示�
 /goal 请阅读 https://raw.githubusercontent.com/yuyou-dev/GrillMeJewel/main/UPDATE.md，安全更新并验证我现有的 GrillMeJewel，保留我的创作内容，并告诉我何时需要重启 Codex。
 ```
 
-更新器会从精确的 `v0.2.0` tag 运行可回滚迁移，不会删除对话、brief 或设计图。首次安装使用 `INSTALL.md`，已有安装使用 [UPDATE.md](UPDATE.md)。
+更新器会从精确的 `v0.3.0` tag 运行可回滚迁移，不会删除对话、brief 或设计图。首次安装使用 `INSTALL.md`，已有安装使用 [UPDATE.md](UPDATE.md)。
 
 ## 它如何工作
 
@@ -106,7 +106,7 @@ Grill me 珠宝。我有一颗蓝宝石，请通过表单帮我找到合适的�
 | Apps UI 与本地 MCP | ✅ | ✅ | 未验证 | — |
 | gpt-image-2 生成 | ✅ | ✅ | 未验证 | — |
 
-当前稳定版：[v0.2.0](https://github.com/yuyou-dev/GrillMeJewel/releases/tag/v0.2.0)。
+当前稳定版：[v0.3.0](https://github.com/yuyou-dev/GrillMeJewel/releases/tag/v0.3.0)。
 升级见 [UPDATE.md](UPDATE.md)，卸载见 [INSTALL.md](INSTALL.md#uninstall)，遇到问题请查阅
 [Troubleshooting](docs/TROUBLESHOOTING.md)。
 

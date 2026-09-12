@@ -86,3 +86,22 @@ test("Apps UI is a single-question wizard with terminal loading and no nested sc
   assert.match(html, /toolError/);
   assert.match(html, /访谈问题不完整/);
 });
+
+
+test("adaptive interview skips known stages but still presents explicit confirmation", () => {
+  const responses = transact(["design_language", "confirmation"].map((stage, index) => ({
+    jsonrpc: "2.0", id: index + 20, method: "tools/call", params: {
+      name: "ask_grill_me_questions", arguments: {
+        title: "按需确认", mode: "adaptive", round: index + 1, stage,
+        questions: [{ id: "decision", label: "请确认当前方向", type: "text" }],
+      },
+    },
+  })));
+  assert.equal(responses[0].result.structuredContent.interview.mode, "adaptive");
+  assert.equal(responses[0].result.structuredContent.interview.minimumDiscoveryRounds, 0);
+  assert.equal(responses[1].result.structuredContent.interview.stage, "confirmation");
+  const [invalid] = transact([{ jsonrpc: "2.0", id: 22, method: "tools/call", params: {
+    name: "ask_grill_me_questions", arguments: { title: "Invalid", mode: "skip", round: 1, stage: "foundation", questions: [{ id: "a", label: "A", type: "text" }] },
+  }}]);
+  assert.match(invalid.error.message, /mode must be/);
+});
