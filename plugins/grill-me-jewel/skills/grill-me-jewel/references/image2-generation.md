@@ -1,6 +1,6 @@
 # Image-2 Jewelry Generation
 
-After the user confirms the brief, generate real design images with Codex `$imagegen` / gpt-image-2.
+After the user confirms the brief, generate real design images with Codex `$imagegen` / built-in image generation.
 
 ## Prompt Order
 
@@ -36,3 +36,5 @@ Verify the tool returned the accepted `delivery_count` of readable images, the v
 matches the confirmed category, and the candidates exhibit their planned structural differences.
 Do not perform subjective ranking or automatic regeneration unless the user explicitly asks for
 critique or revision.
+
+The host chooses the image model. Never infer Sunburst or Flare usage from prompt wording. Preserve model evidence when returned; otherwise report image identity as unknown.

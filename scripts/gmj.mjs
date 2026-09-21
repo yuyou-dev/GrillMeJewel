@@ -7,8 +7,8 @@ import { fileURLToPath } from "node:url";
 
 const MARKETPLACE = "grill-me-jewel";
 const SOURCE = "yuyou-dev/GrillMeJewel";
-const REF = "v0.2.0";
-const TARGET_VERSION = "0.2.0";
+const REF = "v0.3.0";
+const TARGET_VERSION = "0.3.0";
 const PLUGIN = "grill-me-jewel";
 const PLUGIN_ID = `${PLUGIN}@${MARKETPLACE}`;
 const MCP = "grill_me_jewel_ui";
@@ -58,7 +58,7 @@ function resolveCodex() {
 
 function execute(command, args, { json = false } = {}) {
   const shell = process.platform === "win32" && /\.(?:cmd|bat)$/i.test(command);
-  const result = spawnSync(command, args, { encoding: "utf8", windowsHide: true, shell });
+  const result = spawnSync(command, args, { encoding: "utf8", windowsHide: true, shell, maxBuffer: 16 * 1024 * 1024 });
   if (result.error) throw new Error(`unable to start ${args[0] || command}: ${result.error.message}`);
   if (result.status !== 0) throw new Error((result.stderr || result.stdout || "command failed").trim().split("\n")[0]);
   if (!json) return result.stdout.trim();
@@ -164,7 +164,7 @@ async function bootstrap(options) {
 async function update(options) {
   const planned = [
     action("remove old fixed-ref marketplace", ["plugin", "marketplace", "remove", MARKETPLACE]),
-    action("add v0.2.0 marketplace", ["plugin", "marketplace", "add", SOURCE, "--ref", REF]),
+    action("add v0.3.0 marketplace", ["plugin", "marketplace", "add", SOURCE, "--ref", REF]),
     action("restore plugin", ["plugin", "add", PLUGIN_ID]),
   ];
   if (options.dryRun) return updateResult({ status: "restart_required", dryRun: true, actions: planned });
@@ -179,13 +179,13 @@ async function update(options) {
   const restoreIds = [PLUGIN_ID];
 
   if (fromVersion === TARGET_VERSION && current.enabled !== false) {
-    const refresh = action("verify v0.2.0 marketplace", ["plugin", "marketplace", "upgrade", MARKETPLACE]);
+    const refresh = action("verify v0.3.0 marketplace", ["plugin", "marketplace", "upgrade", MARKETPLACE]);
     applyAction(codex, refresh, false);
     const after = inspect(codex); const verified = installed(after.plugins);
     return updateResult({
       status: verified && versionOf(verified) === TARGET_VERSION ? "ready" : "blocked",
       fromVersion, migration: "already-current", restoredPlugins: restoreIds, actions: [refresh],
-      ...(!(verified && versionOf(verified) === TARGET_VERSION) ? { reason: "v0.2.0 verification failed" } : {}),
+      ...(!(verified && versionOf(verified) === TARGET_VERSION) ? { reason: "v0.3.0 verification failed" } : {}),
     });
   }
 

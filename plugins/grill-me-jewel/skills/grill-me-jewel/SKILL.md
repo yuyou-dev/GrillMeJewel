@@ -1,21 +1,21 @@
 ---
 name: grill-me-jewel
-description: Turn a vague or unformed jewelry idea into a confirmed brief and real gpt-image-2 jewelry design images through a deliberate four-stage Apps UI interview. Use when the user explicitly asks for “Grill Me 珠宝”, “Grill Me Jewel”, “你到底想要设计什么”, help discovering a jewelry direction, or has no clear jewelry product, concept, and intended output. Do not use when the request is already specific enough to execute or only needs one ordinary factual clarification.
+description: Turn a vague or unformed jewelry idea into a confirmed brief and real gpt-image-2 jewelry design images through an adaptive or full-depth Apps UI interview. Use when the user explicitly asks for “Grill Me 珠宝”, “Grill Me Jewel”, “你到底想要设计什么”, help discovering a jewelry direction, or has no clear jewelry product, concept, and intended output. Do not use when the request is already specific enough to execute or only needs one ordinary factual clarification.
 ---
 
 # Grill Me Jewel
 
 ## Purpose
 
-Help a beginner discover and articulate what jewelry they want to design. Complete four purposeful
-discovery rounds plus a separate confirmation round, preserve every answer, then use Codex
-gpt-image-2 to generate the requested real design images.
+Help a beginner discover and articulate what jewelry they want to design. Use adaptive discovery by default, or four purposeful discovery rounds for an explicit deep interview.
+Both modes end in a separate confirmation round. Preserve every answer, then use Codex image generation to generate the requested real design images.
 
 ## Interview
 
 1. Read `references/design-frontier.md`. Reuse facts from the conversation and attachments, then
-   complete foundation, meaning, design language, and variation/delivery as four submitted Apps UI
-   rounds. A known fact moves its stage to a deeper decision; it does not remove the stage.
+   use `mode: adaptive` to ask only unresolved decisions that change the result. Skip known facts.
+   For an explicit deep interview, use `mode: full` and complete foundation, meaning, design language,
+   and variation/delivery as four submitted Apps UI rounds.
 2. For every round, call `ask_grill_me_questions` as the primary interaction surface with the exact
    `stage` and sequential `round`. Ask one to four currently answerable fields. Discover that exact
    tool name before falling back to prose. Use concise chat questions only after real tool discovery
@@ -29,8 +29,8 @@ gpt-image-2 to generate the requested real design images.
 5. In variation/delivery, split locked facts from flexible axes. For multiple outputs, define named
    candidate branches that each change at least three visible design axes while preserving product
    identity, wearing logic, and the central story.
-6. After four discovery rounds, present the assembled brief through one final
-   `ask_grill_me_questions` confirmation round with `stage: confirmation` and `round` 5 or greater. Ask
+6. After the necessary decisions are resolved (four discovery rounds in full mode), present the assembled brief through one final
+   `ask_grill_me_questions` confirmation round with `stage: confirmation` and the next sequential `round` (5 or greater in full mode). Ask
    whether to confirm it or revise it, with a text field for corrections when needed.
 7. After confirmation, read `references/image2-generation.md`, compile one production prompt per
    requested design, and invoke Codex `$imagegen` / gpt-image-2. The confirmed brief is the source
@@ -57,7 +57,7 @@ gpt-image-2 to generate the requested real design images.
   concept, and output clarity.
 - Confirm every unresolved round used the Apps UI form unless an actual discovery/call failure was
   reported.
-- Confirm all four discovery stages were submitted before the separate confirmation round.
+- Confirm full mode completed all four discovery stages; adaptive mode asked only unresolved facts. Both require a separate confirmation round.
 - Confirm no round exceeded four fields or repeated an established fact.
 - Confirm the accepted delivery count matches the number of generated images.
 - Confirm every multi-image candidate changes at least three visible design axes rather than only
@@ -66,3 +66,5 @@ gpt-image-2 to generate the requested real design images.
 - Confirm gpt-image-2 returned the requested number of readable image assets. If image generation
   is unavailable or fails, report the real blocker and keep the confirmed brief for retry; do not
   present a text brief as completed visual delivery.
+
+Image model identity comes from provider evidence, not prompt wording. If Codex does not expose the actual image model, report it as unknown; do not claim Sunburst or Flare selection.
