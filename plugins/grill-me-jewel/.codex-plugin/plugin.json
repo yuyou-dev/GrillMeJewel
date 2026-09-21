@@ -1,7 +1,7 @@
 {
   "name": "grill-me-jewel",
   "version": "0.3.0",
-  "description": "A guided jewelry interview that turns vague ideas into confirmed gpt-image-2 jewelry designs.",
+  "description": "An adaptive jewelry interview that turns vague ideas into confirmed briefs and real Codex design images.",
   "author": {
     "name": "苏哇科技",
     "url": "https://github.com/yuyou-dev"
@@ -13,8 +13,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Grill Me 珠宝",
-    "shortDescription": "通过结构化访谈明确方向，并用 gpt-image-2 生成珠宝设计图。",
-    "longDescription": "Grill Me Jewel guides designers through four focused Apps UI discovery stages, confirms the delivery count and a coherent jewelry brief, then uses Codex gpt-image-2 to generate visibly differentiated independent design images.",
+    "shortDescription": "通过按需访谈明确方向，确认后生成珠宝设计图。",
+    "longDescription": "Grill Me Jewel asks only unresolved design decisions, with optional full-depth interviews, then confirms the brief, delivery count, and presentation before generating independent jewelry images with Codex.",
     "developerName": "苏哇科技",
     "category": "Productivity",
     "websiteURL": "https://github.com/yuyou-dev/GrillMeJewel",
@@ -24,7 +24,7 @@
     "logo": "./assets/brand/logo-static.png",
     "defaultPrompt": [
       "我只有一个模糊的珠宝想法，请先用表单梳理，再生成设计图。",
-      "进入 Grill Me 珠宝模式，确认 brief 后用 Image-2 出图。",
+      "进入 Grill Me 珠宝模式，确认 brief 后用 Codex 内置图像工具出图。",
       "Interview me about a jewelry idea, confirm the brief, then generate the design image."
     ]
   },

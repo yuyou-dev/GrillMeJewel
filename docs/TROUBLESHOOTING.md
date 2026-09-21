@@ -25,7 +25,7 @@ ask Codex to continue the next unresolved Grill Me round without repeating estab
 ## Image generation does not start
 
 The final brief must be explicitly confirmed first. If it was confirmed, ask Codex to use
-`$imagegen` / gpt-image-2 with that brief. Missing account permission or network access must be
+`$imagegen` / Codex built-in image generation with that brief. Missing account permission or network access must be
 reported honestly; the plugin does not accept an API key as a workaround.
 
 ## Marketplace conflict
