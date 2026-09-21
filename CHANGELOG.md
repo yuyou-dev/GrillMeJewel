@@ -2,13 +2,21 @@
 
 ## Unreleased
 
-## 0.3.0 - release candidate
+## 0.3.0 - 2026-09-22
 
 - Handle large Codex plugin inventories during installation and doctor checks.
 
 - Added adaptive interviews that skip known facts while keeping explicit full-depth interviews.
 - Preserved a separate brief confirmation and independent image delivery count.
 - Clarified that prompt wording cannot attest an image model.
+- Added a shared presentation lock for square white-studio designs, with category framing and
+  controlled metal, gemstone, and pearl lighting; explicit user presentation choices take precedence.
+- Added concrete beginner choices and story-to-form translation, preserving the complete confirmed
+  brief, reference roles, piece/pair counts, and candidate identity in generation prompts.
+- Kept design-reference geometry separate from presentation-reference lighting and background.
+- Added focused single-candidate refinements and distinguished generation attempts from delivered images.
+- Adapted the reviewed creative guidance into self-contained public references; no new runtime
+  dependencies, MCP tools, or UI resources.
 
 ## 0.2.0 - 2026-08-19
 

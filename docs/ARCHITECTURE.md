@@ -23,7 +23,7 @@ vague user idea
   -> sandboxed Apps UI shows one question at a time
   -> ui/message writes stable answer ids into the same conversation
   -> Skill assembles and confirms the brief
-  -> Codex gpt-image-2 generates real design image assets
+  -> Codex built-in image generation generates real design image assets
 ```
 
 The MCP never generates images and never receives provider credentials. It creates a local HTML

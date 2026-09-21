@@ -1,6 +1,6 @@
 ---
 name: grill-me-jewel
-description: Turn a vague or unformed jewelry idea into a confirmed brief and real gpt-image-2 jewelry design images through an adaptive or full-depth Apps UI interview. Use when the user explicitly asks for “Grill Me 珠宝”, “Grill Me Jewel”, “你到底想要设计什么”, help discovering a jewelry direction, or has no clear jewelry product, concept, and intended output. Do not use when the request is already specific enough to execute or only needs one ordinary factual clarification.
+description: Turn a vague or unformed jewelry idea into a confirmed brief and real jewelry design images with Codex built-in image generation through an adaptive or full-depth Apps UI interview. Use when the user explicitly asks for “Grill Me 珠宝”, “Grill Me Jewel”, “你到底想要设计什么”, help discovering a jewelry direction, or has no clear jewelry product, concept, and intended output. Do not use when the request is already specific enough to execute or only needs one ordinary factual clarification.
 ---
 
 # Grill Me Jewel
@@ -23,18 +23,25 @@ Both modes end in a separate confirmation round. Preserve every answer, then use
 3. Use stable lowercase field and option ids. Offer an `other` option when a useful answer may fall
    outside the list. In foundation, ask `delivery_count` unless the user already supplied a count;
    offer `count_1`, `count_2`, `count_4`, `count_8`, and a custom value. Never ask for providers,
-   concurrency, internal job ids, API keys, or cost.
+   concurrency, internal job ids, API keys, or cost. Distinguish image count from piece/pair and
+   explicit stone/pearl counts inside each image. Flexible materials or style never increase the
+   accepted delivery count.
 4. After submission, summarize only the newly established facts and preserve all earlier answers.
-   Continue with the next stage; never answer the user's side of the interview.
+   Continue with the next unresolved decisions in adaptive mode, or the next stage in full mode;
+   never answer the user's side of the interview.
 5. In variation/delivery, split locked facts from flexible axes. For multiple outputs, define named
    candidate branches that each change at least three visible design axes while preserving product
    identity, wearing logic, and the central story.
 6. After the necessary decisions are resolved (four discovery rounds in full mode), present the assembled brief through one final
    `ask_grill_me_questions` confirmation round with `stage: confirmation` and the next sequential `round` (5 or greater in full mode). Ask
    whether to confirm it or revise it, with a text field for corrections when needed.
+   Include the accepted counts, reference roles, visible translation of the story, candidate matrix,
+   and Presentation Lock from `references/design-frontier.md`. This uses the existing confirmation,
+   not an extra round. Label creative defaults separately from user-supplied facts.
 7. After confirmation, read `references/image2-generation.md`, compile one production prompt per
-   requested design, and invoke Codex `$imagegen` / gpt-image-2. The confirmed brief is the source
-   of truth; do not resume interviewing during generation.
+   requested design, and invoke Codex `$imagegen` / built-in image generation. Carry the complete
+   accepted brief into every prompt; do not reduce it to a style summary or resume interviewing
+   during generation.
 8. Return the final brief in Markdown under: Objective, Product, Design Direction, Materials and
    Craft, Source Assets, Output Intent, Locked Facts, Flexible Details. Present every real generated
    image inline. Never claim an image exists unless the tool returned it.
@@ -45,6 +52,8 @@ Both modes end in a separate confirmation round. Preserve every answer, then use
 - Prefer single choice for product identity and output intent, multi choice for style or motifs,
   and text only when the answer cannot be represented honestly with options.
 - Make choices mutually understandable to a beginner. Avoid internal jewelry workflow jargon.
+  Describe visible consequences, such as a smooth metal rim versus slender claws around the stone.
+  Translate stories into proposed physical form; optional taste can remain a labeled default.
 - A known fact remains immutable unless the user explicitly corrects it.
 - Do not invent gemstone grade, origin, certification, size, budget, brand, or manufacturing facts.
 - Delivery count is part of the interview, not a hidden default. Preserve an explicit count;
@@ -63,8 +72,18 @@ Both modes end in a separate confirmation round. Preserve every answer, then use
 - Confirm every multi-image candidate changes at least three visible design axes rather than only
   wording, crop, lighting, background, or camera angle.
 - Confirm the final brief was explicitly accepted or corrected by the user.
-- Confirm gpt-image-2 returned the requested number of readable image assets. If image generation
+- Confirm Codex built-in image generation returned the requested number of readable image assets. If image generation
   is unavailable or fails, report the real blocker and keep the confirmed brief for retry; do not
   present a text brief as completed visual delivery.
+- Report actual delivered and missing counts. A recorded attempt is not a delivered image.
+- Preserve the Presentation Lock and explicit piece/pair and stone counts; report actual dimensions
+  and any known mismatch rather than claiming a requested size was delivered.
+
+## Requested Refinement
+
+When the user changes one candidate, update only the affected brief facts and that candidate's
+prompt. Use its delivered image and required design sources as references. An explicit correction
+updates the corresponding lock; preserve all other locks and successful siblings. Do not restart
+the interview, regenerate the whole set, or add unsolicited aesthetic review.
 
 Image model identity comes from provider evidence, not prompt wording. If Codex does not expose the actual image model, report it as unknown; do not claim Sunburst or Flare selection.

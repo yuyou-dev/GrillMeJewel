@@ -52,7 +52,7 @@ Required:
 - Git 2.30 or newer
 - Node.js 20 or newer, available as `node`
 - network access to GitHub and OpenAI
-- a Codex account with gpt-image-2 access for final image generation
+- a Codex account with Codex built-in image generation access for final image generation
 
 Check:
 
@@ -143,7 +143,7 @@ installation, and the MCP registration without reading credentials.
 Tell the user to completely quit and reopen Codex Desktop. Then create a new task and use:
 
 ```text
-请进入 Grill Me 珠宝模式。我只有一个模糊的珠宝想法，请先用 Apps UI 访谈并确认 brief，然后用 gpt-image-2 生成设计图。
+请进入 Grill Me 珠宝模式。我只有一个模糊的珠宝想法，请先用 Apps UI 访谈并确认 brief，然后用 Codex 内置图像工具生成设计图。
 ```
 
 Success means:
@@ -152,7 +152,7 @@ Success means:
 2. The conversation opens the paged interview form.
 3. Submitted answers return to the same task.
 4. The agent presents a final brief confirmation.
-5. After confirmation, gpt-image-2 returns the requested real design image or an honest permission blocker.
+5. After confirmation, Codex built-in image generation returns the requested real design image or an honest permission blocker.
 
 Do not claim a new task was created if the host cannot create one automatically. Give the exact test prompt instead.
 

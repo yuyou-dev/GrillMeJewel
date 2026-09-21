@@ -1,7 +1,7 @@
 interface:
   display_name: "Grill Me 珠宝"
-  short_description: "通过可视化访谈明确珠宝方向，再用 Image-2 生成设计图"
-  default_prompt: "Use $grill-me-jewel to interview me, confirm the jewelry brief, and generate the design with gpt-image-2."
+  short_description: "通过可视化访谈明确珠宝方向，再用 Codex 内置图像工具生成设计图"
+  default_prompt: "Use $grill-me-jewel to interview me, confirm the jewelry brief, and generate the design with Codex built-in image generation."
 policy:
   allow_implicit_invocation: true
 dependencies:

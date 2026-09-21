@@ -9,14 +9,14 @@
   <img alt="macOS supported" src="https://img.shields.io/badge/macOS-supported-111111">
   <img alt="Windows supported" src="https://img.shields.io/badge/Windows-supported-111111">
   <img alt="Codex Desktop" src="https://img.shields.io/badge/Codex-Desktop-C8A35A">
-  <img alt="gpt-image-2" src="https://img.shields.io/badge/output-gpt--image--2-111111">
+  <img alt="Codex image generation" src="https://img.shields.io/badge/output-Codex%20images-111111">
 </p>
 
 <p align="center"><strong>把一句模糊的珠宝想法，变成一组有清晰差异的真实设计图。</strong></p>
 
 GrillMeJewel 是苏哇科技推出的开源 Codex 插件，为珠宝创意而生。它通过简洁优雅的
 Apps UI 默认按需追问影响设计的缺失信息，深度访谈模式保留四个探索阶段，把零散的灵感沉淀为一份清晰、专业的
-珠宝设计 brief；你可以选择 1、2、4、8 张或自定义数量，确认后再由 Codex gpt-image-2
+珠宝设计 brief；你可以选择 1、2、4、8 张或自定义数量，确认后再由 Codex 内置图像工具
 生成结构与造型都能看出差异的真实珠宝设计图。无需任何专业背景，
 一句话就能开始。
 
@@ -60,12 +60,9 @@ Codex 会自动完成环境检查、插件安装与健康检查，随后提示�
 
 ```mermaid
 flowchart LR
-  A["模糊想法"] --> B["基础与数量"]
-  B --> C["情感与母题"]
-  C --> D["设计语言"]
-  D --> E["差异与交付"]
-  E --> F["确认 brief"]
-  F --> G["gpt-image-2 独立出图"]
+  A["你的想法与已有信息"] --> B["按需补齐设计决策"]
+  B --> F["确认 brief、数量与展示方式"]
+  F --> G["Codex 内置图像工具独立出图"]
 ```
 
 每一轮只追问当前真正缺失的决策，绝不重复你已经说过的内容：
@@ -82,8 +79,10 @@ flowchart LR
 ## 你将获得
 
 - 一份结构清晰、可反复打磨的珠宝设计 brief，明确区分「已锁定的事实」与「可调整的细节」。
-- 经你确认后，由 gpt-image-2 生成的真实珠宝设计图。
+- 经你确认后，由 Codex 内置图像工具生成的真实珠宝设计图。
 - 多款设计逐张独立成图，每个方向至少在三个可见设计轴上拉开差异，不以拼图充数。
+- 普通设计图默认采用方形白底棚拍，明确视角、留白、灯光与阴影；你指定的其他展示方式优先。
+- 修改某一款时保留其他方案，延续已确认的设计细节和展示方式。
 - 诚实可靠的交付：即使出图权限暂不可用，已确认的 brief 也会完整保留，并如实说明原因。
 
 ## 快速试用
@@ -104,7 +103,7 @@ Grill me 珠宝。我有一颗蓝宝石，请通过表单帮我找到合适的�
 | --- | :---: | :---: | :---: | :---: |
 | 安装与健康检查 | ✅ | ✅ | 未验证 | — |
 | Apps UI 与本地 MCP | ✅ | ✅ | 未验证 | — |
-| gpt-image-2 生成 | ✅ | ✅ | 未验证 | — |
+| Codex 内置图像工具生成 | ✅ | ✅ | 未验证 | — |
 
 当前稳定版：[v0.3.0](https://github.com/yuyou-dev/GrillMeJewel/releases/tag/v0.3.0)。
 升级见 [UPDATE.md](UPDATE.md)，卸载见 [INSTALL.md](INSTALL.md#uninstall)，遇到问题请查阅
@@ -114,7 +113,7 @@ Grill me 珠宝。我有一颗蓝宝石，请通过表单帮我找到合适的�
 
 GrillMeJewel 没有托管服务、数据库或账号系统——你的对话和创意只留在你自己的
 设备上。Apps UI 仅用于展示问题并回传答案；图片生成完全使用你自己的 Codex 登录
-与 gpt-image-2 权限，仓库中不含任何 API Key、登录凭证或用户作品。
+与内置图像生成权限，仓库中不含任何 API Key、登录凭证或用户作品。
 
 我们同样专注于设计本身：不提供 CAD、生产参数或宝石鉴定，也不会虚构品牌与证书信息。
 
@@ -127,6 +126,7 @@ GrillMeJewel 没有托管服务、数据库或账号系统——你的对话和�
 - [安全政策](SECURITY.md)
 - [贡献指南](CONTRIBUTING.md)
 - [版本变更](CHANGELOG.md)
+- [创作规则同步来源与适配范围](docs/SOURCE-SYNC.md)
 
 ## License 与品牌
 

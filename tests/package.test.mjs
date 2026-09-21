@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, resolve, sep } from "node:path";
 import test from "node:test";
 
 const ROOT = resolve(import.meta.dirname, "..");
@@ -26,7 +26,7 @@ test("the plugin contains exactly one public skill", () => {
   assert.deepEqual(skills.map(({ name }) => name), ["grill-me-jewel"]);
   const skill = readFileSync(resolve(skillRoot, "grill-me-jewel/SKILL.md"), "utf8");
   assert.match(skill, /ask_grill_me_questions/);
-  assert.match(skill, /gpt-image-2/);
+  assert.match(skill, /Codex built-in image generation/);
   assert.match(skill, /\$imagegen/);
   assert.match(skill, /four discovery stages/);
   assert.match(skill, /delivery_count/);
@@ -51,4 +51,23 @@ test("README exposes permanent install and update prompts", () => {
   const update = readFileSync(resolve(ROOT, "UPDATE.md"), "utf8");
   assert.match(update, /--branch v0\.3\.0/);
   assert.match(update, /rolledBack/);
+});
+
+test("all linked creative references ship inside the standalone skill", () => {
+  const skillRoot = resolve(PLUGIN, "skills/grill-me-jewel");
+  function checkFolder(folder) {
+    for (const entry of readdirSync(folder, { withFileTypes: true })) {
+      const file = resolve(folder, entry.name);
+      if (entry.isDirectory()) checkFolder(file);
+      else if (entry.name.endsWith(".md")) {
+        for (const [, target] of readFileSync(file, "utf8").matchAll(/\[[^\]]+\]\(([^)]+)\)/g)) {
+          if (/^(https?:|#)/.test(target)) continue;
+          const reference = resolve(dirname(file), target.split("#")[0]);
+          assert.ok(reference.startsWith(`${skillRoot}${sep}`), `${file}: reference escapes the public skill`);
+          assert.ok(existsSync(reference), `${file}: missing ${target}`);
+        }
+      }
+    }
+  }
+  checkFolder(skillRoot);
 });
